@@ -1,0 +1,2757 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Spring for QA</title>
+
+    <meta name="description" content="package-by-feature, package-private access, encapsulation, modularity">
+    <meta name="author" content="mat3e">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/highlight/github.css">
+    <link rel="stylesheet" href="dist/fontawesome.css">
+    <style>
+        #about-me {
+            padding: 1em;
+            background-color: rgba(255, 255, 255, .75);
+            list-style-type: none;
+            margin-left: 0;
+            float: left;
+        }
+
+        #about-me ul {
+            list-style-type: none;
+            float: left;
+            margin-left: 0;
+        }
+
+        #about-me a {
+            color: #a23;
+        }
+
+        #about-me a:hover {
+            color: #dd5566;
+        }
+
+        .ex2 code {
+            font-size: .85em;
+        }
+
+        .ex3 pre {
+            margin: 0;
+            width: 100%;
+        }
+
+        .ex3 code {
+            font-size: .75em;
+            line-height: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="reveal">
+    <div class="slides">
+        <section data-background-image>
+            <section data-background-image>
+                <h1 style="text-align: left">Spring for QA</h1>
+                <div style="width: 320px; height: 64px; background-image: url('img/twitter.png'); background-size: contain; top: -4em; right: 0; position: absolute;"></div>
+            </section>
+            <section data-background-image="img/bg-hd-new.jpg" data-background-transition="zoom">
+                <ul id="about-me">
+                    <li>
+                        <ul>
+                            <li>
+                                <a href="https://www.linkedin.com/in/mateusz-chrzonstowski/">
+                                    <i class="fab fa-linkedin"
+                                       style="color: #0077B5; background-color: #FFF; line-height: .75em"></i>
+                                    /mateusz-chrzonstowski
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/_mat3e_">
+                                    <i class="fab fa-twitter-square"
+                                       style="background-color: #1DA1F2; color: #FFF; line-height: .75em"></i>
+                                    /_mat3e_
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.reddit.com/user/_mat3e_">
+                                    <i class="fab fa-reddit-square"
+                                       style="background-color: #FF4500; color: #FFF; line-height: .75em"></i>
+                                    /_mat3e_
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/mat3e/">
+                                    <i class="fab fa-github-square"
+                                       style="color: #24292E; background-color: #FFF; line-height: .75em"></i>
+                                    /mat3e
+                                </a>
+                            </li>
+                            <li style="line-height: 1">&nbsp;</li>
+                            <li class="fragment" style="line-height: .75">
+                                <a style="font-weight: bold; font-size: .75em"
+                                   href="https://github.com/mat3e/spring-qa-workshop">
+                                    github.com/mat3e/spring-qa-workshop
+                                </a>
+                            </li>
+                            <li style="line-height: 1">&nbsp;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="fragment" style="padding: .1em; line-height: 1">
+                            <ul style="padding: .1em; line-height: 1">
+                                <li>
+                                    <a href="">
+                                        <img src="img/pplus.png" style="height: 2em; margin: 0">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://full-stack.engineering/" class="fragment">
+                                        <img src="img/udemy-new.svg" class="pure-img" style="height: 1em; margin: 0">
+                                    </a>
+                                </li>
+                            </ul>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <section data-background-image="img/meet.jpg" data-background-color="#fff"
+                     data-background-size="contain">
+            </section>
+        </section>
+
+        <section data-background-image>
+            <section data-transition="zoom">
+                <h2>🎯</h2>
+                <ul>
+                    <li class="fragment">Overview of how Spring works</li>
+                    <li class="fragment">Tips & tricks
+                        <ul>
+                            <li class="fragment">Tests with Spring in general</li>
+                            <li class="fragment">Setup and preparation of Spring app for tests</li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Getting better in coding</li>
+                </ul>
+            </section>
+        </section>
+
+        <section data-background-image>
+            <section>
+                <h2>Schedule</h2>
+                <ol>
+                    <li class="fragment highlight-red">Gradle</li>
+                    <li><code>spring-boot-starter-test</code></li>
+                    <li>Spring 101</li>
+                    <li>Testing Spring</li>
+                    <li>App customizations for tests</li>
+                    <li>Component tests & testcontainers</li>
+                </ol>
+            </section>
+            <section>
+                <h3 style="margin: 0">Exercise 1</h3>
+                <ol style="font-size: .85em">
+                    <li class="fragment">Enter <a href="https://start.spring.io/">start.spring.io</a></li>
+                    <li class="fragment">Use <em>Explore</em> button to see what's get included</li>
+                    <li class="fragment">Experiment with options and see what changes</li>
+                    <li class="fragment"><em>Generate</em>, extract and open in IntelliJ
+                        <ul>
+                            <li class="fragment">File ⇒ Open... ⇒ build.gradle ⇒ Open as Project</li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Check in the Gradle panel (at right) what dependencies got added and in which
+                        versions
+                        <div style="text-align: center">
+                            <img src="img/deps.png" style="width: 20%; margin: 0">
+                        </div>
+                    </li>
+                    <li class="fragment">
+                        Run <code>dependencyManagement</code> task
+                        <ul>
+                            <li>Tasks ⇒ help ⇒ dependencyManagement</li>
+                            <li><code>./gradlew dependencyManagement</code></li>
+                        </ul>
+                    </li>
+                </ol>
+            </section>
+            <section data-background-image>
+                <pre class="r-stretch" style="width: 100%;"><code class="groovy" data-trim contenteditable="true"
+                                                                  style="font-size: .85em; line-height: 1.1"
+                                                                  data-line-numbers="1-5|10-12|23-25|18-21|14-16|7,8">
+                    plugins {
+                        id 'java'
+                        id 'org.springframework.boot' version '3.2.3'
+                        id 'io.spring.dependency-management' version '1.1.4'
+                    }
+
+                    group = 'com.example'
+                    version = '0.0.1-SNAPSHOT'
+
+                    java {
+                        sourceCompatibility = '21'
+                    }
+
+                    repositories {
+                        mavenCentral()
+                    }
+
+                    dependencies {
+                        implementation 'org.springframework.boot:spring-boot-starter'
+                        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+                    }
+
+                    tasks.named('test') {
+                        useJUnitPlatform()
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h3>Other source sets</h3>
+                <blockquote class="fragment" style="width: 100%">
+                    The simplest way to add integration tests to your build is by leveraging the incubating <a
+                        href="https://docs.gradle.org/current/userguide/jvm_test_suite_plugin.html#jvm_test_suite_plugin">JVM
+                    Test Suite</a> plugin.
+                    <small style="margin-top: .5em; display: block; font-style: normal">
+                        <a href="https://docs.gradle.org/current/userguide/java_testing.html#sec:configuring_java_integration_tests">Configuring
+                            integration tests</a>
+                    </small>
+                </blockquote>
+                <img class="fragment" src="img/incubating.jpg" style="width: 40%">
+            </section>
+            <section>
+                <blockquote style="width: 100%">
+                    [<code>java-test-fixtures</code> and <code>jvm-test-suites</code>] are two
+                    completely different things with completely different purposes that can
+                    nicely work together though, and that are most probably both are there to stay.
+                    <small style="margin-top: .5em; display: block; font-style: normal">
+                        <a href="https://discuss.gradle.org/t/how-do-jvm-test-suite-and-java-test-fixtures-relate-to-each-other-and-how-can-they-be-used-cross-project/46491/3">How
+                            do ‘jvm-test-suite’ and ‘java-test-fixtures’ relate to each other and how can they be used
+                            cross
+                            project</a>
+                    </small>
+                </blockquote>
+            </section>
+            <section>
+                <h3 style="margin: 0;">Exercise 2</h3>
+                <ol style="font-size: .9em" class="ex2">
+                    <li class="fragment">Clone this repo and open app from <em>ex2/start</em></li>
+                    <li class="fragment">Add <code>java-test-fixtures</code> plugin
+                        (<a href="https://docs.gradle.org/6.8.3/userguide/java_testing.html#sec:java_test_fixtures">docs</a>)
+                        <ul>
+                            <li class="fragment">You need to “refresh” after changing <em>build.gradle</em>
+                                <div style="text-align: center">
+                                    <img src="img/refresh.png" style="width: 20%; margin: 0">
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="fragment">
+                        Move <code>InMemoryAccountRepository</code> file to <code>testFixtures</code>, to <code>io.github.mat3e.downloads.limiting</code>
+                        package
+                        <ul>
+                            <li class="fragment">
+                                Use <code>testFixturesImplementation</code>, so <code>testFixtures</code> can
+                                access <code>Repository</code> from Spring dependencies
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Is this still possible to create <code>InMemoryAccountRepository</code> under
+                        tests code?
+                    </li>
+                </ol>
+            </section>
+            <section>
+                <h3 style="margin: 0;">Exercise 3</h3>
+                <ol class="ex3" style="font-size: .85em">
+                    <li class="fragment">Continue with the app</li>
+                    <li class="fragment">Maintain tests through <code>jvm-test-suite</code>
+                        (<a href="https://docs.gradle.org/current/userguide/jvm_test_suite_plugin.html">docs</a>)
+                    </li>
+                    <li class="fragment">
+                        Replace current maintaining (<code>tasks.named('test')</code>) with
+                        <pre><code class="groovy" data-trim>
+                            testing {
+                                suites {
+                                    configureEach {
+                                        useJUnitJupiter()
+                                        dependencies {
+                                            implementation 'org.springframework.boot:spring-boot-starter-test'
+                                        }
+                                    }
+
+                                    integrationTest(JvmTestSuite) {
+                                        dependencies {
+                                            implementation project()
+                                        }
+
+                                        targets {
+                                            all {
+                                                testTask.configure {
+                                                    shouldRunAfter test
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            tasks.named('check') {
+                                dependsOn testing.suites.integrationTest
+                            }
+                        </code></pre>
+                    </li>
+                    <li class="fragment">Move <code>DownloadsApplicationTests</code> to <code>integrationTest</code>
+                    </li>
+                </ol>
+            </section>
+            <section data-background-size="contain"
+                     data-background-image="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTAzcXlmZzl4ZXg1OTV2bGF3MmZ5dWZhc2dwbDNnenUycnp1ZXBmMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Qk44NYpbXAMYLDUqv2/giphy.gif">
+            </section>
+            <section>
+                <h2>Testing tips</h2>
+                <ul>
+                    <li class="fragment">Dedicated source sets: <code>testFixtures</code>, <code>integrationTests</code>
+                    </li>
+                    <li style="visibility: hidden">&nbsp;</li>
+                    <li style="visibility: hidden">&nbsp;</li>
+                    <li style="visibility: hidden">&nbsp;</li>
+                    <li style="visibility: hidden">&nbsp;</li>
+                    <li style="visibility: hidden">&nbsp;</li>
+                    <li style="visibility: hidden">&nbsp;</li>
+                </ul>
+            </section>
+        </section>
+
+        <section data-background-image>
+            <section>
+                <h2>Schedule</h2>
+                <ol>
+                    <li>Gradle</li>
+                    <li class="fragment highlight-red"><code>spring-boot-starter-test</code></li>
+                    <li>Spring 101</li>
+                    <li>Testing Spring</li>
+                    <li>App customizations for tests</li>
+                    <li>Component tests & testcontainers</li>
+                </ol>
+            </section>
+            <section>
+                <h2>spring-boot-starter-test</h2>
+                <pre class="fragment" style="width: 100%"><code style="font-size: .95em" class="groovy" data-trim>
+                    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+                </code></pre>
+                <ul style="list-style-type: '+ '">
+                    <li class="fragment">spring-boot-test, spring-test</li>
+                    <li class="fragment">JUnit (Platform + Jupiter)</li>
+                    <li class="fragment">Mockito</li>
+                    <li class="fragment">AssertJ, Hamcrest</li>
+                    <li class="fragment">JSON, XML, Awaitility, console helpers</li>
+                </ul>
+            </section>
+            <section>
+                <h3 style="margin: 0">Tools split</h3>
+                <ul>
+                    <li class="fragment">
+                        Runner
+                        <ul style="font-size: .9em">
+                            <li class="fragment">Repeatable and reliable launching of tests</li>
+                            <li class="fragment">JUnit Platform</li>
+                        </ul>
+                    </li>
+                    <li class="fragment">
+                        Framework
+                        <ul style="font-size: .9em">
+                            <li class="fragment">Frames for tests, reporting</li>
+                            <li class="fragment">JUnit Jupiter</li>
+                        </ul>
+                    </li>
+                    <li class="fragment">
+                        Assertions
+                        <ul style="font-size: .9em">
+                            <li class="fragment">Comparing results with expected values</li>
+                            <li class="fragment">JUnit Jupiter, AssertJ</li>
+                        </ul>
+                    </li>
+                    <li class="fragment">
+                        Mocking
+                        <ul style="font-size: .9em">
+                            <li class="fragment">Simulating external dependencies</li>
+                            <li class="fragment">Mockito</li>
+                        </ul>
+                    </li>
+                </ul>
+                <aside class="notes">
+                    Puzzle, z których będziemy składać;
+                    <ul>
+                        <li>runner - sposób odpalenia testów</li>
+                        <li>
+                            framework - szkielet, sposób pisania testów, żeby były jakoś powtarzalne itp.; raporty
+                        </li>
+                        <li>asercje - wyjątek</li>
+                        <li>mockowanie</li>
+                    </ul>
+                </aside>
+            </section>
+            <section data-auto-animate data-background-image>
+                <pre data-id="unit-test" class="r-stretch" style="width: 100%;"><code class="java" data-trim
+                                                                                      data-line-numbers="12-15,17-28|23-28">
+                    package io.github.mat3e.downloads.limiting;
+
+                    import io.github.mat3e.downloads.limiting.api.AccountId;
+                    import io.github.mat3e.downloads.reporting.ReportingFacade;
+                    import org.junit.jupiter.api.BeforeEach;
+                    import org.junit.jupiter.api.Test;
+                    import org.mockito.ArgumentCaptor;
+
+                    import java.time.Clock;
+                    import java.util.Optional;
+
+                    import static org.assertj.core.api.Assertions.assertThat;
+                    import static org.mockito.Mockito.mock;
+                    import static org.mockito.Mockito.verify;
+                    import static org.mockito.Mockito.when;
+
+                    class LimitingFacadeTest {
+                      private final Clock clock = mock(Clock.class);
+                      private final AccountRepository accountRepository = mock(AccountRepository.class);
+                      private final AccountSettingRepository accountSettingRepository = mock(AccountSettingRepository.class);
+                      private final ReportingFacade reporting = mock(ReportingFacade.class);
+
+                      private LimitingFacade systemUnderTest;
+
+                      @BeforeEach
+                      void setUp() {
+                        systemUnderTest = new LimitingFacade(clock, accountRepository, accountSettingRepository, reporting);
+                      }
+
+                      @Test
+                      void newAccount_overrideLimit_createsAccount() {
+                        // given
+                        var accountId = AccountId.valueOf("1");
+                        when(accountSettingRepository.findById(accountId))
+                            .thenReturn(Optional.empty());
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        // then
+                        var captor = ArgumentCaptor.forClass(AccountSetting.class);
+                        verify(accountSettingRepository).save(captor.capture());
+                        var account = captor.getValue();
+                        assertThat(account.id()).isEqualTo(accountId);
+                        assertThat(account.limit()).isEqualTo(1);
+                      }
+
+                      @Test
+                      void existingAccount_overrideLimit_updatesAccount() {
+                        // given
+                        var accountId = AccountId.valueOf("1");
+                        var existingAccount = mock(AccountSetting.class);
+                        when(accountSettingRepository.findById(accountId))
+                            .thenReturn(Optional.of(existingAccount));
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        // then
+                        verify(existingAccount).overrideLimit(1);
+                        verify(accountSettingRepository).save(existingAccount);
+                      }
+                    }
+                </code></pre>
+            </section>
+            <section data-auto-animate data-background-image>
+                <pre data-id="unit-test" class="r-stretch" style="width: 100%;"><code class="java" data-trim
+                                                                                      data-line-numbers="23-24">
+                    package io.github.mat3e.downloads.limiting;
+
+                    import io.github.mat3e.downloads.limiting.api.AccountId;
+                    import io.github.mat3e.downloads.reporting.ReportingFacade;
+                    import org.junit.jupiter.api.BeforeEach;
+                    import org.junit.jupiter.api.Test;
+                    import org.mockito.ArgumentCaptor;
+
+                    import java.time.Clock;
+                    import java.util.Optional;
+
+                    import static org.assertj.core.api.Assertions.assertThat;
+                    import static org.mockito.Mockito.mock;
+                    import static org.mockito.Mockito.verify;
+                    import static org.mockito.Mockito.when;
+
+                    class LimitingFacadeTest {
+                      private final Clock clock = mock(Clock.class);
+                      private final AccountRepository accountRepository = mock(AccountRepository.class);
+                      private final AccountSettingRepository accountSettingRepository = mock(AccountSettingRepository.class);
+                      private final ReportingFacade reporting = mock(ReportingFacade.class);
+
+                      private final LimitingFacade systemUnderTest =
+                          new LimitingFacade(clock, accountRepository, accountSettingRepository, reporting);
+
+                      @Test
+                      void newAccount_overrideLimit_createsAccount() {
+                        // given
+                        var accountId = AccountId.valueOf("1");
+                        when(accountSettingRepository.findById(accountId))
+                            .thenReturn(Optional.empty());
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        // then
+                        var captor = ArgumentCaptor.forClass(AccountSetting.class);
+                        verify(accountSettingRepository).save(captor.capture());
+                        var account = captor.getValue();
+                        assertThat(account.id()).isEqualTo(accountId);
+                        assertThat(account.limit()).isEqualTo(1);
+                      }
+
+                      @Test
+                      void existingAccount_overrideLimit_updatesAccount() {
+                        // given
+                        var accountId = AccountId.valueOf("1");
+                        var existingAccount = mock(AccountSetting.class);
+                        when(accountSettingRepository.findById(accountId))
+                            .thenReturn(Optional.of(existingAccount));
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        // then
+                        verify(existingAccount).overrideLimit(1);
+                        verify(accountSettingRepository).save(existingAccount);
+                      }
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h3>
+                    <a href="https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests-sources-CsvSource"><code>@CsvSource</code></a>
+                    - hidden hero
+                </h3>
+                <pre class="fragment"><code class="java" data-trim style="font-size: .8em; line-height: 1.05"
+                                            contenteditable="true">
+                    @ParameterizedTest
+                    @CsvSource(delimiter = '|', quoteCharacter = '"', textBlock = """
+                        #-----------------------------
+                        #    FRUIT     |     RANK
+                        #-----------------------------
+                             apple     |      1
+                        #-----------------------------
+                             banana    |      2
+                        #-----------------------------
+                          "lemon lime" |     0xF1
+                        #-----------------------------
+                           strawberry  |    700_000
+                        #-----------------------------
+                        """)
+                    void testWithCsvSource(String fruit, int rank) {
+                        // ...
+                    }
+                </code></pre>
+                <pre class="fragment"><code class="java" data-trim style="font-size: .8em; line-height: 1.05"
+                                            contenteditable="true">
+                    @ParameterizedTest(name = "{0} seconds encoded as {1}")
+                    @CsvSource(delimiterString = "seconds encoded as", textBlock = """
+                        15 seconds encoded as 'PT15S'
+                        180 seconds encoded as 'PT3M'
+                        8_047 seconds encoded as 'PT2H14M7S'
+                        172_800 seconds encoded as 'PT48H'
+                    """)
+                    void encodesAsIso8601(long seconds, String expected) {
+                        // ...
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h2>AssertJ + custom assertions</h2>
+                <ul>
+                    <li class="fragment">
+                        <a href="https://www.baeldung.com/assertj-custom-assertion">Custom Assertions with AssertJ</a>
+                    </li>
+                    <li class="fragment">Basically, extend <code>AbstractObjectAssert</code> or
+                        <code>AbstractAssert</code> and profit
+                    </li>
+                </ul>
+                <pre class="fragment"><code class="java" data-trim>
+                    assertThat(capturedEvents)
+                      .extracting("accountId", "asset")
+                      .containsExactly(tuple(ACCOUNT_ID, Asset.withId("123").inCountry("US")));
+                </code></pre>
+                <pre class="fragment"><code class="java" data-trim>
+                    assertThatExceptionOfType(BusinessException.class)
+                      .isThrownBy(() -> limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("US")))
+                      .withMessageContaining("not found")
+                      .withMessageContaining(ACCOUNT_ID.getId());
+                </code></pre>
+            </section>
+            <section>
+                <h2 style="margin: 0">
+                    <a href="https://site.mockito.org/"><img src="img/mockito.png" style="height: 2em; margin: 0"
+                                                             alt="Mockito logo"/></a>
+                </h2>
+                <blockquote>
+                    <ul>
+                        <li class="fragment">Do not mock types you don't own</li>
+                        <li class="fragment">Don't mock value objects</li>
+                        <li class="fragment">Don't mock everything</li>
+                    </ul>
+                </blockquote>
+            </section>
+            <section data-auto-animate data-background-image>
+                <pre data-id="unit-test" class="r-stretch" style="width: 100%;"><code class="java" data-trim
+                                                                                      data-line-numbers="44-45|46,48-50|55-56|44-58">
+                    package io.github.mat3e.downloads.limiting;
+
+                    import io.github.mat3e.downloads.limiting.api.AccountId;
+                    import io.github.mat3e.downloads.reporting.ReportingFacade;
+                    import org.junit.jupiter.api.BeforeEach;
+                    import org.junit.jupiter.api.Test;
+                    import org.mockito.ArgumentCaptor;
+
+                    import java.time.Clock;
+                    import java.util.Optional;
+
+                    import static org.assertj.core.api.Assertions.assertThat;
+                    import static org.mockito.Mockito.mock;
+                    import static org.mockito.Mockito.verify;
+                    import static org.mockito.Mockito.when;
+
+                    class LimitingFacadeTest {
+                      private final Clock clock = mock(Clock.class);
+                      private final AccountRepository accountRepository = mock(AccountRepository.class);
+                      private final AccountSettingRepository accountSettingRepository = mock(AccountSettingRepository.class);
+                      private final ReportingFacade reporting = mock(ReportingFacade.class);
+
+                      private final LimitingFacade systemUnderTest =
+                          new LimitingFacade(clock, accountRepository, accountSettingRepository, reporting);
+
+                      @Test
+                      void newAccount_overrideLimit_createsAccount() {
+                        // given
+                        var accountId = AccountId.valueOf("1");
+                        when(accountSettingRepository.findById(accountId))
+                            .thenReturn(Optional.empty());
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        // then
+                        var captor = ArgumentCaptor.forClass(AccountSetting.class);
+                        verify(accountSettingRepository).save(captor.capture());
+                        var account = captor.getValue();
+                        assertThat(account.id()).isEqualTo(accountId);
+                        assertThat(account.limit()).isEqualTo(1);
+                      }
+
+                      @Test
+                      void existingAccount_overrideLimit_updatesAccount() {
+                        // given
+                        var accountId = AccountId.valueOf("1");
+                        var existingAccount = mock(AccountSetting.class);
+                        when(accountSettingRepository.findById(accountId))
+                            .thenReturn(Optional.of(existingAccount));
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        // then
+                        verify(existingAccount).overrideLimit(1);
+                        verify(accountSettingRepository).save(existingAccount);
+                      }
+                    }
+                </code></pre>
+            </section>
+            <section data-auto-animate data-background-image>
+                <pre data-id="unit-test" class="r-stretch" style="width: 100%;"><code class="java" data-trim
+                                                                                      data-line-numbers="44-58|17-24">
+                    package io.github.mat3e.downloads.limiting;
+
+                    import io.github.mat3e.downloads.limiting.api.AccountId;
+                    import io.github.mat3e.downloads.reporting.ReportingFacade;
+                    import org.junit.jupiter.api.BeforeEach;
+                    import org.junit.jupiter.api.Test;
+                    import org.mockito.ArgumentCaptor;
+
+                    import java.time.Clock;
+                    import java.util.Optional;
+
+                    import static org.assertj.core.api.Assertions.assertThat;
+                    import static org.mockito.Mockito.mock;
+                    import static org.mockito.Mockito.verify;
+                    import static org.mockito.Mockito.when;
+
+                    class LimitingFacadeTest {
+                      private final Clock clock = mock(Clock.class);
+                      private final AccountRepository accountRepository = mock(AccountRepository.class);
+                      private final AccountSettingRepository accountSettingRepository = mock(AccountSettingRepository.class);
+                      private final ReportingFacade reporting = mock(ReportingFacade.class);
+
+                      private final LimitingFacade systemUnderTest =
+                          new LimitingFacade(clock, accountRepository, accountSettingRepository, reporting);
+
+                      @Test
+                      void newAccount_overrideLimit_createsAccount() {
+                        // given
+                        var accountId = AccountId.valueOf("1");
+                        when(accountSettingRepository.findById(accountId))
+                            .thenReturn(Optional.empty());
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        // then
+                        var captor = ArgumentCaptor.forClass(AccountSetting.class);
+                        verify(accountSettingRepository).save(captor.capture());
+                        var account = captor.getValue();
+                        assertThat(account.id()).isEqualTo(accountId);
+                        assertThat(account.limit()).isEqualTo(1);
+                      }
+
+                      @Test
+                      void existingAccount_overrideLimit_updatesAccount() {
+                        // given
+                        var accountId = AccountId.valueOf("1");
+                        var existingAccount = new AccountSetting(accountId.getId(), 2, 1);
+                        when(accountSettingRepository.findById(accountId))
+                            .thenReturn(Optional.of(existingAccount));
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        // then
+                        assertThat(existingAccount.limit()).isEqualTo(1);
+                        verify(accountSettingRepository).save(existingAccount);
+                      }
+                    }
+                </code></pre>
+                <aside class="notes">
+                    To jest lepszy test - coś się faktycznie zmieniło. Taki mindset potrzebny
+                    <br/>
+                    Można mieć wywołanie overrideAccount, ale co jeśli ta metoda nic nie robi? Dopiero
+                    AccountSettingTest ma to wykryć?
+                </aside>
+            </section>
+            <section data-auto-animate data-background-image>
+                <pre data-id="unit-test" class="r-stretch" style="width: 100%;"><code class="java" data-trim
+                                                                                      data-line-numbers="18-33|32-33,37-49">
+                    package io.github.mat3e.downloads.limiting;
+
+                    import io.github.mat3e.downloads.limiting.api.AccountId;
+                    import io.github.mat3e.downloads.reporting.ReportingFacade;
+                    import org.junit.jupiter.api.Test;
+                    import org.junit.jupiter.api.extension.ExtendWith;
+                    import org.mockito.ArgumentCaptor;
+                    import org.mockito.Captor;
+                    import org.mockito.InjectMocks;
+                    import org.mockito.Mock;
+                    import org.mockito.junit.jupiter.MockitoExtension;
+                    import java.time.Clock;
+                    import java.util.Optional;
+                    import static org.assertj.core.api.Assertions.assertThat;
+                    import static org.mockito.Mockito.verify;
+                    import static org.mockito.Mockito.when;
+
+                    @ExtendWith(MockitoExtension.class)
+                    class LimitingFacadeTest {
+                      @Mock
+                      private Clock clock;
+                      @Mock
+                      private AccountRepository accountRepository;
+                      @Mock
+                      private AccountSettingRepository accountSettingRepository;
+                      @Mock
+                      private ReportingFacade reporting;
+
+                      @InjectMocks
+                      private LimitingFacade systemUnderTest;
+
+                      @Captor
+                      private ArgumentCaptor&lt;AccountSetting> captor;
+
+                      @Test
+                      void newAccount_overrideLimit_createsAccount() {
+                        // given
+                        var accountId = AccountId.valueOf("1");
+                        when(accountSettingRepository.findById(accountId))
+                            .thenReturn(Optional.empty());
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        // then
+                        verify(accountSettingRepository).save(captor.capture());
+                        var account = captor.getValue();
+                        assertThat(account.id()).isEqualTo(accountId);
+                        assertThat(account.limit()).isEqualTo(1);
+                      }
+
+                      @Test
+                      void existingAccount_overrideLimit_updatesAccount() {
+                        // given
+                        var accountId = AccountId.valueOf("1");
+                        var existingAccount = new AccountSetting(accountId.getId(), 2, 1);
+                        when(accountSettingRepository.findById(accountId))
+                            .thenReturn(Optional.of(existingAccount));
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        // then
+                        assertThat(existingAccount.limit()).isEqualTo(1);
+                        verify(accountSettingRepository).save(existingAccount);
+                      }
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h2>Exercise 4</h2>
+                <ol>
+                    <li class="fragment">Rewrite tests to use <code>MockitoExtension</code></li>
+                    <li class="fragment">Skip mocking <code>AccountSetting</code> where possible</li>
+                    <li class="fragment">
+                        Add custom assertion for <code>AccountSetting</code> (in <code>testFixtures</code>), so it can
+                        be read e.g.
+                        <pre style="margin: 0;"><code class="java" data-trim>thenAccount(existingAccount).cannotDownloadMoreThan(1)</code></pre>
+                    </li>
+                </ol>
+            </section>
+            <section>
+                <h3><em>Do not mock types you don't own</em>?</h3>
+                <ol>
+                    <li class="fragment">What with e.g. <code>MeterRegistry</code>?</li>
+                    <li class="fragment">Desired design or code smell?</li>
+                    <li class="fragment">Testing with mocks and captors might "cement" us</li>
+                    <li class="fragment"><a href="https://youtu.be/Ed94CfxgsCA?si=h7hEm77sCGHtSFoU&t=375"><em> The art
+                        of
+                        destroying software (Greg Young)</em></a> (6:15):
+                        <blockquote>I either change my tests or my code. (...) If I refactor my code, my tests stay
+                            stable. My tests ran before, they run after. It's a measurement.
+                        </blockquote>
+                    </li>
+                    <li class="fragment">External libs usually tested on their own</li>
+                    <li class="fragment">Wrap with custom (own 😇) abstraction!</li>
+                </ol>
+            </section>
+            <section>
+                <h3>
+                    <code>BDDAssertions</code> + <code>BDDMockito</code>
+                </h3>
+                <ul>
+                    <li class="fragment">
+                        <a href="https://dannorth.net/introducing-bdd/">Dan North (author of JBehave) - words matter</a>
+                    </li>
+                    <li class="fragment">Given-When-Then</li>
+                </ul>
+            </section>
+            <section data-auto-animate data-background-image>
+                <pre data-id="unit-test" class="r-stretch" style="width: 100%;"><code class="java" data-trim
+                                                                                      data-line-numbers="37-49">
+                    package io.github.mat3e.downloads.limiting;
+
+                    import io.github.mat3e.downloads.limiting.api.AccountId;
+                    import io.github.mat3e.downloads.reporting.ReportingFacade;
+                    import org.junit.jupiter.api.Test;
+                    import org.junit.jupiter.api.extension.ExtendWith;
+                    import org.mockito.ArgumentCaptor;
+                    import org.mockito.Captor;
+                    import org.mockito.InjectMocks;
+                    import org.mockito.Mock;
+                    import org.mockito.junit.jupiter.MockitoExtension;
+                    import java.time.Clock;
+                    import java.util.Optional;
+                    import static org.assertj.core.api.Assertions.assertThat;
+                    import static org.mockito.Mockito.verify;
+                    import static org.mockito.Mockito.when;
+
+                    @ExtendWith(MockitoExtension.class)
+                    class LimitingFacadeTest {
+                      @Mock
+                      private Clock clock;
+                      @Mock
+                      private AccountRepository accountRepository;
+                      @Mock
+                      private AccountSettingRepository accountSettingRepository;
+                      @Mock
+                      private ReportingFacade reporting;
+
+                      @InjectMocks
+                      private LimitingFacade systemUnderTest;
+
+                      @Captor
+                      private ArgumentCaptor&lt;AccountSetting> captor;
+
+                      @Test
+                      void newAccount_overrideLimit_createsAccount() {
+                        // given
+                        var accountId = AccountId.valueOf("1");
+                        when(accountSettingRepository.findById(accountId))
+                            .thenReturn(Optional.empty());
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        // then
+                        verify(accountSettingRepository).save(captor.capture());
+                        var account = captor.getValue();
+                        assertThat(account.id()).isEqualTo(accountId);
+                        assertThat(account.limit()).isEqualTo(1);
+                      }
+
+                      @Test
+                      void existingAccount_overrideLimit_updatesAccount() {
+                        // given
+                        var accountId = AccountId.valueOf("1");
+                        var existingAccount = new AccountSetting(accountId.getId(), 2, 1);
+                        when(accountSettingRepository.findById(accountId))
+                            .thenReturn(Optional.of(existingAccount));
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        // then
+                        assertThat(existingAccount.limit()).isEqualTo(1);
+                        verify(accountSettingRepository).save(existingAccount);
+                      }
+                    }
+                </code></pre>
+            </section>
+            <section data-auto-animate data-background-image>
+                <pre data-id="unit-test" class="r-stretch" style="width: 100%;"><code class="java" data-trim
+                                                                                      data-line-numbers="38-48|14-16,18">
+                    package io.github.mat3e.downloads.limiting;
+
+                    import io.github.mat3e.downloads.limiting.api.AccountId;
+                    import io.github.mat3e.downloads.reporting.ReportingFacade;
+                    import org.junit.jupiter.api.Test;
+                    import org.junit.jupiter.api.extension.ExtendWith;
+                    import org.mockito.ArgumentCaptor;
+                    import org.mockito.Captor;
+                    import org.mockito.InjectMocks;
+                    import org.mockito.Mock;
+                    import org.mockito.junit.jupiter.MockitoExtension;
+                    import java.time.Clock;
+                    import java.util.Optional;
+                    import static org.assertj.core.api.BDDAssertions.and;
+                    import static org.mockito.BDDMockito.given;
+                    import static org.mockito.BDDMockito.then;
+
+                    @SuppressWarnings("AccessStaticViaInstance") // and.then for readability and to overcome collision with BDDMockito
+                    @ExtendWith(MockitoExtension.class)
+                    class LimitingFacadeTest {
+                      @Mock
+                      private Clock clock;
+                      @Mock
+                      private AccountRepository accountRepository;
+                      @Mock
+                      private AccountSettingRepository accountSettingRepository;
+                      @Mock
+                      private ReportingFacade reporting;
+
+                      @InjectMocks
+                      private LimitingFacade systemUnderTest;
+
+                      @Captor
+                      private ArgumentCaptor&lt;AccountSetting> accountSettingCaptor;
+
+                      @Test
+                      void newAccount_overrideLimit_createsAccount() {
+                        var accountId = AccountId.valueOf("1");
+                        given(accountSettingRepository.findById(accountId))
+                            .willReturn(Optional.empty());
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        then(accountSettingRepository).should().save(accountSettingCaptor.capture());
+                        var account = accountSettingCaptor.getValue();
+                        and.then(account.id()).isEqualTo(accountId);
+                        and.then(account.limit()).isEqualTo(1);
+                      }
+
+                      @Test
+                      void existingAccount_overrideLimit_updatesAccount() {
+                        var accountId = AccountId.valueOf("1");
+                        var existingAccount = new AccountSetting(accountId.getId(), 2, 1);
+                        given(accountSettingRepository.findById(accountId)).willReturn(Optional.of(existingAccount));
+
+                        // when
+                        systemUnderTest.overrideAccountLimit(accountId, 1);
+
+                        then(accountSettingRepository).should().save(existingAccount);
+                        and.then(existingAccount.limit()).isEqualTo(1);
+                      }
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <pre><code class="java" data-trim>
+                    import org.springframework.boot.test.json.BasicJsonTester;
+                    import org.springframework.boot.test.json.JsonContent;
+                </code></pre>
+                <pre class="fragment"><code class="java" data-trim>
+                then(asJson(item)).isStrictlyEqualToJson("""
+                    {
+                      "itemId": 123,
+                      "itemType": "collection",
+                      "item": [{
+                        "channel_name": "sports",
+                        "collection_slug": "test-slug",
+                        "item_types": ["channel"]
+                      }]
+                    }""");
+                </code></pre>
+                <pre class="fragment"><code class="java" data-trim style="font-size: .85em;">
+                    private JsonContent&lt;Object> asJson(CollectionItem toParse) throws JsonProcessingException {
+                        String jsonResult = new ObjectMapper().writeValueAsString(toParse);
+                        System.out.println(jsonResult);
+                        return new BasicJsonTester(getClass()).from(jsonResult);
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <pre style="width: 100%"><code class="java" data-trim>
+                    import org.springframework.boot.test.system.CapturedOutput;
+                    import org.springframework.boot.test.system.OutputCaptureExtension;
+                </code></pre>
+                <pre style="width: 100%" class="fragment"><code class="java" data-trim style="font-size: .9em;">
+                    @Test
+                    @ExtendWith(OutputCaptureExtension.class)
+                    void should_log_warn_about_null_input_country(CapturedOutput capturedOutput) {
+                        // when
+                        SubscriptionCountry.from((Country) null);
+
+                        // then
+                        assertThat(capturedOutput.getOut())
+                            .contains("create SubscriptionCountry from nullable Country");
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h2>Exercise 5</h2>
+                <ol>
+                    <li class="fragment">Use BDD methods in tests</li>
+                    <li class="fragment">Introduce something we own and can mock
+                        <ol>
+                            <li class="fragment">Add <code>reporting</code> package next to <code>limiting</code></li>
+                            <li class="fragment">Add <code>ReportingFacade</code>, e.g. with <code>recordEvent</code>
+                                method
+                            </li>
+                            <li class="fragment">Move <code>MeterRegistry</code> and incrementing there</li>
+                            <li class="fragment">Think of further extensions - e.g. logging</li>
+                            <li class="fragment">Bonus: test that logging output</li>
+                        </ol>
+                    </li>
+                    <li class="fragment">We refactor both code and tests, but later changing the reporting part
+                        shouldn't change tests
+                    </li>
+                </ol>
+            </section>
+            <section data-background-size="contain"
+                     data-background-image="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXBnajRqOW83ODJ3NWowbzZ4dG9yZmUwd2V0dXhsbTV0Zml2a2pnMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlT86IOp6nE9he0/giphy.gif"></section>
+            <section data-background-size="contain"
+                     data-background-image="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHBhNjBtM2FqcmRtNGh3d2F1M242bnhtamI2aWo2ZmJseWh1bWUxeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/QPqMWgAratNIcZMKrS/giphy.gif"></section>
+            <section>
+                <h2>Testing tips</h2>
+                <ul>
+                    <li>Dedicated source sets: <code>testFixtures</code>, <code>integrationTests</code></li>
+                    <li class="fragment"><code>@CsvSource</code></li>
+                    <li class="fragment"><q>Do not mock types you don't own</q></li>
+                    <li class="fragment"><code>MockitoExtension</code></li>
+                    <li class="fragment"><code>BDDMockito</code>, <code>BDDAssertions</code></li>
+                    <li class="fragment"><code>BasicJsonTester</code>, <code>JsonContent</code></li>
+                    <li class="fragment"><code>OutputCaptureExtension</code>, <code>CapturedOutput</code></li>
+                </ul>
+            </section>
+        </section>
+
+        <section data-background-image>
+            <section>
+                <h2>Schedule</h2>
+                <ol>
+                    <li>Gradle</li>
+                    <li><code>spring-boot-starter-test</code></li>
+                    <li class="fragment highlight-red">Spring 101</li>
+                    <li>Testing Spring</li>
+                    <li>App customizations for tests</li>
+                    <li>Component tests & testcontainers</li>
+                </ol>
+            </section>
+            <section>
+                <h3 style="margin: 0;">This and that</h3>
+                <ul style="font-size: .9em;">
+                    <li class="fragment">Breaking Java EE rules, opt-in, minimizing boilerplate</li>
+                    <li class="fragment">Fully-fledged framework for enterprise apps</li>
+                    <li class="fragment">Various modules, plug&play (esp. with Boot):
+                        <ul>
+                            <li class="fragment">Web</li>
+                            <li class="fragment">Data</li>
+                            <li class="fragment">Security</li>
+                            <li class="fragment">Batch</li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Oftentimes utilizes existing libs under the hood</li>
+                    <li class="fragment">Inversion of Control container (managing beans) + Aspect-Oriented Programming
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <div>
+                    <img src="img/frame.jpg" class="pure-img"/>
+                </div>
+            </section>
+            <section>
+                <h2>Library vs framework</h2>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td class="fragment" style="width: 50%;">
+                            Calling delivered library functions whenever and wherever needed
+                        </td>
+                        <td class="fragment" style="width: 50%;">
+                            Putting the code into expected frames. App structure defined by the framework
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <pre class="fragment" style="margin-top: 0;"><code class="java" data-trim contenteditable="true">
+                        if (StringUtils.isBlank(generated)) {
+                            //
+                        }
+                    </code></pre>
+                <aside class="notes">Biblioteka standardowa Javy</aside>
+            </section>
+            <section data-background-image="img/hollywood.jpg" data-background-transition="zoom">
+                <h3><span style="color: #ccc">Don't call us, we'll call you</span></h3>
+                <img src="img/nosacz.jpg" class="pure-img fragment"
+                     style="position: absolute; top: 0; max-height: 375px; max-width: 522px; left: calc(50% - 261px)">
+                <aside class="notes">
+                    Polska wersja, taka z rozmów rekrutacyjnych: oddzwonimy do pana. Ale ja nie mam telefonu
+                    <br>I takie Reduxy to już trochę to
+                </aside>
+            </section>
+            <section>
+                <a href="https://www.youtube.com/watch?v=grF-BVK1vzM">The many meanings of Inversion of Control
+                    (IoC) in JavaScript</a>
+                <br>
+                <img src="img/awizo.jpg" class="pure-img fragment" style="width: 45%">
+                <br>
+                <img src="img/taxi.jpg" class="pure-img fragment" style="width: 45%">
+            </section>
+            <section>
+                <h3 style="margin: 0;">IoC Container (app context)</h3>
+                <ul style="font-size: .9em">
+                    <li class="fragment">Application driven by framework</li>
+                    <li class="fragment">IoC Container manages objects (~beans)</li>
+                    <ul>
+                        <li class="fragment">Those objects build app logic</li>
+                        <li class="fragment">Declare their dependencies (no manual creation)</li>
+                    </ul>
+                    <li class="fragment">Container tries to inject dependencies</li>
+                </ul>
+                <div class="fragment">
+                    <a href="https://docs.spring.io/spring-framework/reference/core/beans/basics.html">
+                        <img src="img/container-magic.png" style="width: 30%; margin-bottom: 0;">
+                    </a>
+                </div>
+                <div class="fragment">
+                    <img src="img/ioc.png" style="width: 70%; margin-top: 0">
+                </div>
+            </section>
+            <section data-background-image="img/java/island.png" data-background-size="contain"
+                     data-background-color="white">
+                <img class="fragment" style="height: 5em" src="img/java/springbeans.png"
+                     alt="IntelliJ showing Spring beans"/>
+                <h2 class="r-hstack fragment" data-fragment-index="1">
+                    <img src="img/java/bean.png" style="height: 3em" alt="coffee bean"/>
+                    <span class="fragment" data-fragment-index="2" style="text-shadow: 0 0 10px black;">⇒</span>
+                    <img class="fragment" data-fragment-index="2" src="img/java/logo.png" style="height: 5em"
+                         alt="java logo"/>
+                </h2>
+            </section>
+            <section>
+                <h2>Declaring beans</h2>
+                <ul>
+                    <li class="fragment"><code>@Component</code></li>
+                    <li class="fragment"><code>@Repository</code></li>
+                    <li class="fragment"><code>@Service</code></li>
+                    <li class="fragment"><code>@Controller</code>, <code>@RestController</code></li>
+                    <li class="fragment"><code>@Configuration</code>, <code>@Bean</code></li>
+                </ul>
+            </section>
+            <section>
+                <h2>Exercise 6</h2>
+                <ol>
+                    <li class="fragment">Take a look at modified app, especially <code>ContextChecker</code></li>
+                    <li class="fragment">Injecting <code>ApplicationContext</code> itself!</li>
+                    <li class="fragment">Experiment and find what is the name of bean representing our <code>ReportingFacade</code>
+                    </li>
+                    <li class="fragment">Why?</li>
+                </ol>
+            </section>
+            <section>
+                <h2 style="margin: 0">Dependency Injection (DI)</h2>
+                <ul>
+                    <li class="fragment">Getting external dependencies
+                        <ul>
+                            <li class="fragment">Not creating them manually</li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Separates constructing from using objects</li>
+                </ul>
+                <pre class="fragment" style="margin-top: 0;"><code class="java" data-trim contenteditable="true"
+                                                                   style="line-height: 1">
+                    @Autowired
+                    private Clock clock;
+                </code></pre>
+                <pre class="fragment" style="margin-top: 0;"><code class="java" data-trim contenteditable="true"
+                                                                   style="line-height: 1">
+                    @Autowired
+                    void setClock(Clock clock) {
+                        this.clock = clock;
+                    }
+                </code></pre>
+                <pre class="fragment" style="margin-top: 0;"><code class="java" data-trim contenteditable="true"
+                                                                   style="line-height: 1">
+                    private final Clock clock;
+
+                    // @Autowired
+                    LimitingFacade(Clock clock) {
+                        this.clock = clock;
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h2>Decoupling</h2>
+                <ul>
+                    <li class="fragment">DI enables it</li>
+                    <li class="fragment">Dependencies expressed with interfaces</li>
+                    <li class="fragment">Enables changing implementations
+                        <ul>
+                            <li class="fragment">E.g. in-memory version injected in tests</li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Reporting decoupled from limiting</li>
+                </ul>
+            </section>
+            <section>
+                <h2><em>Dependency Injection</em> achieves <em>Decoupling</em> using <em>Inversion of Control</em></h2>
+            </section>
+            <section>
+                <h2>Exercise 7</h2>
+                <ol>
+                    <li class="fragment">Change from <code>@Component</code> e.g. to <code>@Service</code></li>
+                    <li class="fragment">Does app still work?</li>
+                    <li class="fragment">
+                        Try to inject <code>LimitingFacade</code> to <code>DownloadsApplication</code> in any way
+                    </li>
+                    <li class="fragment">What happens when the app starts? Why?</li>
+                </ol>
+            </section>
+            <section>
+                <h3 style="margin: 0">On the other hand...</h3>
+                <a href="https://www.youtube.com/watch?v=KrLFs6f2bOA">
+                    <img class="fragment" style="width: 45%; margin: 0" src="img/ref/jnen.png"/>
+                </a>
+                <div class="r-hstack" style="align-items: stretch">
+                    <a href="http://jakubn.gitlab.io/keepitclean/#57">
+                        <img class="fragment" style="margin: 0" src="img/ref/57.png"/>
+                    </a>
+                    <a href="http://jakubn.gitlab.io/keepitclean/#61">
+                        <img class="fragment" style="margin: 0" src="img/ref/61.png"/>
+                    </a>
+                </div>
+                <aside class="notes">contra - jak DI przeszkadza w testach - seria mocków, zaprzęganie Springa żeby
+                    wstrzyknąć tylko w 1
+                    miejsce i tylko jedna implementacja czegoś; PRAGMATYZM
+                </aside>
+            </section>
+            <section>
+                <h2>Exercise 8</h2>
+                <ol>
+                    <li class="fragment">Add dedicated <code>@Configuration</code> classes to reporting and limiting
+                    </li>
+                    <li class="fragment">Make it the only way of defining beans</li>
+                    <li class="fragment">Make <code>@Configuration</code> classes themselves expecting beans in their
+                        constructors
+                        <ul>
+                            <li class="fragment">I/O beans (repository, metrics, clock)</li>
+                            <li class="fragment">Other modules (e.g. limiting requires <code>ReportingFacade</code>)
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Bonus: check bean names in <code>ApplicationContext</code> now</li>
+                </ol>
+            </section>
+            <section>
+                <em>Configs as single entry points can further prevent cyclic dependencies and smoothen the testing</em>
+                <a href="https://www.youtube.com/watch?v=Da42_gVqDKE&t=1189s">
+                    <figure>
+                        <img style="width: 45%; margin: 0" src="img/ref/ks.png"/>
+                        <figcaption><small>19:49-35:15</small></figcaption>
+                    </figure>
+                </a>
+                <aside class="notes">
+                    Demo - clock as part of reporting
+                </aside>
+            </section>
+            <section>
+                <h3 style="margin: 0">Boot</h3>
+                <a class="fragment" href="https://twitter.com/phillip_webb/status/641444531867680768">
+                    <img src="img/boot.png" class="pure-img" style="width: 30%;">
+                </a>
+                <div class="fragment" style="height: 200px">
+                    <img src="img/framework.jpg" class="pure-img" style="height: 100%;">
+                    <img src="img/framework-boot.jpg" class="pure-img" style="height: 100%;">
+                </div>
+            </section>
+            <section>
+                <h2>Convention Over Configuration</h2>
+                <ul>
+                    <li class="fragment">Default configuration, most popular use cases</li>
+                    <li class="fragment">Quick start</li>
+                    <li class="fragment">Easy overriding and extending
+                        <ul>
+                            <li class="fragment">Properties, custom beans taking precedence</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Exercise 9</h2>
+                <ol>
+                    <li class="fragment">
+                        Check how <em>src/main/resources/application.yaml</em> already fine-tunes the app
+                    </li>
+                    <li class="fragment">Comment out its content</li>
+                    <li class="fragment">Does the app start? How got it configured? How does it work?</li>
+                    <li class="fragment">
+                        Check if handmade bean will take precedence over auto-configurations
+                        <pre style="margin: 0;"><code class="java" data-trim style="font-size: .65em; line-height: 1">
+                            @Bean
+                            DataSource dataSource() {
+                                var result = new DriverManagerDataSource("jdbc:h2:file:./filedb;CASE_INSENSITIVE_IDENTIFIERS=TRUE");
+                                result.setDriverClassName("org.h2.Driver");
+                                return result;
+                            }
+                        </code></pre>
+                    </li>
+                </ol>
+            </section>
+            <section data-background-size="contain"
+                     data-background-image="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTNxbGZhYzBodG9yMXhoNGw3cm83bGp5ZHRrMWVlMWpkdmdnOXExcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/XHVmD4RyXgSjd8aUMb/giphy-downsized-large.gif">
+            </section>
+            <section>
+                <h2>AOP</h2>
+                <ul>
+                    <li class="fragment">Spring managing beans = wrapping them and adding custom logic, e.g. around
+                        creation
+                    </li>
+                    <li class="fragment"><code>@Autowired</code>, <code>@PostConstruct</code></li>
+                    <li class="fragment">How about adding more?</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Exercise 10</h2>
+                <div class="fragment">Why one integration test fails in the provided example?</div>
+            </section>
+            <section data-background-size="contain"
+                     data-background-image="https://media.giphy.com/media/xUPJPqUrOpjaxXw5P2/giphy.gif">
+            </section>
+            <section>
+                <h2>Spring testing tips</h2>
+                <ul>
+                    <li class="fragment">Constructor injection</li>
+                    <li class="fragment"><code>@Configuration</code> + <code>@Bean</code> as default</li>
+                    <li class="fragment">Pragmatism - not everything managed by Spring</li>
+                    <li class="fragment">Modularity - independent parts with their configurations</li>
+                    <li style="visibility: hidden">&nbsp;</li>
+                    <li style="visibility: hidden">&nbsp;</li>
+                    <li style="visibility: hidden">&nbsp;</li>
+                </ul>
+            </section>
+        </section>
+
+        <section data-background-image>
+            <section>
+                <h2>Schedule</h2>
+                <ol>
+                    <li>Gradle</li>
+                    <li><code>spring-boot-starter-test</code></li>
+                    <li>Spring 101</li>
+                    <li class="fragment highlight-red">Testing Spring</li>
+                    <li>App customizations for tests</li>
+                    <li>Component tests & testcontainers</li>
+                </ol>
+            </section>
+            <section>
+                <h2>
+                    <a href="https://docs.spring.io/spring-framework/reference/testing.html">Spring doc</a>
+                </h2>
+                <h2>
+                    <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.testing">
+                        Spring Boot doc
+                    </a>
+                </h2>
+            </section>
+            <section data-auto-animate="">
+                <h3><code data-id="app-ctx-r">ApplicationContextRunner</code> - 1/2</h3>
+                <pre class="fragment"><code class="java" data-trim style="font-size: .8em; line-height: 1.1"
+                                            contenteditable="true" data-line-numbers="1-3,5">
+                    class RecommendedShowsVariantService {
+                      private final RecommendedShowsForVariantPort recommendedShowsPort;
+                      private final RelatedShowsFromPickerPort relatedShowsPort;
+                      /* ... */
+                    }
+                </code></pre>
+                <pre class="fragment"><code class="java" data-trim style="font-size: .8em; line-height: 1.1"
+                                            contenteditable="true" data-line-numbers="2,4-5,7,10,12-13,15">
+                    @Bean
+                    @Conditional(UsOrIntlCondition.class)
+                    RecommendedShowsVariantService recommendedShowsVariantService() {
+                        return new RecommendedShowsVariantService(
+                                new DynamicConfigRecommendedShowsVariant(/*...*/),
+                                relatedShowsFromPicker);
+                    }
+
+                    @Bean
+                    @Conditional(TveCondition.class)
+                    RecommendedShowsVariantService tveRecommendedShowsVariantService() {
+                        return new RecommendedShowsVariantService(
+                                new TveRecommendedShows(/*...*/),
+                                relatedShowsFromPicker);
+                    }
+                </code></pre>
+            </section>
+            <section data-auto-animate="">
+                <h3><code data-id="app-ctx-r">ApplicationContextRunner</code> - 2/2</h3>
+                <pre style="width: 100%;"><code class="java" data-trim style="font-size: .7em; line-height: 1.1"
+                                                contenteditable="true" data-line-numbers="2,6|8-13">
+                    class RecommendedShowsVariantConfigurationBeansTest {
+                      private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
+                         .withBean(AMLGRecommendedShowService.class, () -> mock(AMLGRecommendedShowService.class))
+                         .withBean(PersonalizationRecommendedShows.class, () -> mock(PersonalizationRecommendedShows.class))
+                         .withBean(PersonalizationRelatedShows.class, () -> mock(PersonalizationRelatedShows.class))
+                         .withUserConfiguration(RecommendedShowsVariantConfigurationBeans.class);
+
+                      @ParameterizedTest
+                      @EnumSource(ContainerUtil.ContainerPropertyEntity.class)
+                      void shouldConfigureJustSingleService(ContainerUtil.ContainerPropertyEntity container) {
+                        contextRunner.withPropertyValues("containerUtil.propertyEntity=" + container.name())
+                           .run(context -> then(context).hasSingleBean(RecommendedShowsVariantService.class));
+                      }
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h2>Exercise 11</h2>
+                <div>Take a look at changes in <code>reporting</code> and test them with
+                    <code>ApplicationContextRunner</code></div>
+            </section>
+            <section data-auto-animate data-auto-animate-restart>
+                <div class="r-vstack" style="--incidence: 1.8em; --height: 2em; width: 100%">
+                    <div data-id="e2e" style="width: 100%">
+                        <h3 style="margin: 0 auto; width: calc(50% - 4 * var(--incidence)); height: 0; border-left: var(--incidence) solid transparent; border-right: var(--incidence) solid transparent; border-bottom: var(--height) solid #FF5E99FF">
+                            <small>E2E</small>
+                        </h3>
+                    </div>
+                    <div data-id="int" style="width: 100%">
+                        <h3 style="margin: 0 auto; width: calc(50% - 2 * var(--incidence)); height: 0; border-left: var(--incidence) solid transparent; border-right: var(--incidence) solid transparent; border-bottom: var(--height) solid #D08A1DFF">
+                            <small>Integration</small>
+                        </h3>
+                    </div>
+                    <div style="width: 100%;" data-id="unit">
+                        <h3
+                                style="margin: 0 auto; width: 50%; height: 0; border-left: var(--incidence) solid transparent; border-right: var(--incidence) solid transparent; border-bottom: var(--height) solid #74A7CBFF">
+                            Unit
+                        </h3>
+                    </div>
+                </div>
+            </section>
+            <section data-auto-animate>
+                <div class="r-vstack" style="--incidence: 1.8em; --height: 2em; width: 100%">
+                    <div data-id="e2e" style="width: 100%">
+                        <h3 style="margin: 0 auto; width: calc(50% - 4 * var(--incidence)); height: 0; border-left: var(--incidence) solid transparent; border-right: var(--incidence) solid transparent; border-bottom: var(--height) solid #FF5E99FF">
+                            <small>E2E</small>
+                        </h3>
+                    </div>
+                    <div data-id="int" style="width: 100%">
+                        <h3 style="margin: 0 auto; width: calc(50% - 2 * var(--incidence)); height: 0; border-left: calc(var(--incidence) / 2) solid transparent; border-right: calc(var(--incidence) / 2) solid transparent; border-bottom: calc(var(--height) / 2) solid #D08A1DFF">
+                            <small>Int</small>
+                        </h3>
+                    </div>
+                    <div data-id="component" style="width: 100%">
+                        <h3 style="margin: 0 auto; width: calc(50% - var(--incidence)); height: 0; border-left: calc(var(--incidence) / 2) solid transparent; border-right: calc(var(--incidence) / 2) solid transparent; border-bottom: calc(var(--height) / 2) solid #78B9E6FF">
+                            <small>Component</small>
+                        </h3>
+                    </div>
+                    <div style="width: 100%;" data-id="unit">
+                        <h3
+                                style="margin: 0 auto; width: 50%; height: 0; border-left: var(--incidence) solid transparent; border-right: var(--incidence) solid transparent; border-bottom: var(--height) solid #74A7CBFF">
+                            Unit
+                        </h3>
+                    </div>
+                </div>
+            </section>
+            <section data-auto-animate data-transition="fade-out">
+                <style>
+                    #other-border:before {
+                        content: 'Component';
+                        position: absolute;
+                        top: calc(-1.5 * var(--height));
+                        width: 100%;
+                        display: block;
+                    }
+                </style>
+                <div class="r-vstack" style="--incidence: 1.8em; --height: 2em; width: 100%">
+                    <div data-id="e2e" style="width: 100%">
+                        <h3 style="margin: 0 auto; width: 0; height: 0; border-left: calc(var(--incidence) / 2) solid transparent; border-right: calc(var(--incidence) / 2) solid transparent; border-bottom: calc(var(--height) / 4) solid #FF5E99FF"></h3>
+                    </div>
+                    <div data-id="int" style="width: 100%">
+                        <h3 style="margin: 0 auto; width: 50%; height: 0; border-left: calc(var(--incidence) / 2) solid transparent; border-right: calc(var(--incidence) / 2) solid transparent; border-bottom: calc(var(--height) / 2 + var(--height)) solid #D08A1DFF">
+                            Integration
+                        </h3>
+                    </div>
+                    <div data-id="component" style="width: 100%">
+                        <h3 style="position: relative; margin: 0 auto; width: 40%; height: 0; border-left: calc(var(--incidence) / 2) solid transparent; border-right: calc(var(--incidence) / 2) solid transparent; border-top: calc(var(--height) / 2 + var(--height)) solid #78B9E6FF"
+                            id="other-border">
+                        </h3>
+                    </div>
+                    <div style="width: 100%;" data-id="unit">
+                        <h3
+                                style="margin: 0 auto; width: 0; height: 0; border-left: calc(var(--incidence) / 2) solid transparent; border-right: calc(var(--incidence) / 2) solid transparent; border-top: calc(var(--height) / 4) solid #74A7CBFF"></h3>
+                    </div>
+                </div>
+            </section>
+            <section data-transition="fade-in">
+                <div class="r-vstack" style="--incidence: 3.5em; --height: 1em; width: 100%">
+                    <h3 style="margin: 0 auto; width: calc(50% - 2 * var(--incidence)); height: 0; border-left: var(--incidence) solid transparent; border-right: var(--incidence) solid transparent; border-bottom: var(--height) solid #FF5E99FF"></h3>
+                    <div style="width: 100%">
+                        <h3 class="r-hstack"
+                            style="margin: 0 auto; width: 50%; height: 3em; background-color: #D08A1DFF;">
+                            Integration
+                        </h3>
+                    </div>
+                    <h3 style="margin: 0 auto; width: calc(50% - 2 * var(--incidence)); height: 0; border-left: var(--incidence) solid transparent; border-right: var(--incidence) solid transparent; border-top: var(--height) solid #74A7CBFF"></h3>
+                </div>
+                <a class="fragment" href="https://engineering.atspotify.com/2018/01/testing-of-microservices/">
+                    <em>Spotify: Testing of Microservices</em>
+                </a>
+                <ul style="font-size: .9em">
+                    <li class="fragment">Give us confidence that the code does what it should</li>
+                    <li class="fragment">Provide feedback that is fast, accurate, reliable and predictable</li>
+                    <li class="fragment">Make maintenance easier, something that is commonly overlooked when writing
+                        tests
+                    </li>
+                </ul>
+                <h2 class="fragment"
+                    style="text-shadow: 0 0 10px black; text-decoration-line: underline overline; text-decoration-thickness: from-font; text-decoration-color: red; position: absolute; top: 60%; left: 20%; transform: rotate(-10deg);">
+                    documenting<br/>the behaviors</h2>
+            </section>
+            <section>
+                <h2>But... <span class="fragment">What do we "integrate"?</span></h2>
+                <blockquote style="font-size: .8em" class="fragment">
+                    A key element of Spring is
+                    <strong>infrastructural support at the application level:</strong>
+                    Spring focuses on the
+                    <strong>"plumbing"</strong>
+                    of enterprise applications
+                    <small style="margin-top: .5em; display: block; font-style: normal">
+                        <a href="https://spring.io/projects/spring-framework">Spring</a>
+                    </small>
+                </blockquote>
+                <blockquote style="font-size: .8em" class="fragment">
+                    [Integration Testing] lets you test the correct wiring of your Spring IoC container contexts
+                    <small style="margin-top: .5em; display: block; font-style: normal">
+                        <a href="https://docs.spring.io/spring-framework/reference/testing/integration.html">Documentation</a>
+                    </small>
+                </blockquote>
+                <div class="fragment">IoC = integration of our objects (beans)</div>
+                <aside class="notes">IoC container</aside>
+            </section>
+            <section>
+                <h2 style="text-decoration: underline dotted #D08A1DFF">Integration Tests</h2>
+                <div class="r-stack">
+                    <img class="fragment current-visible" src="img/uvi.gif" alt="Lock worked in isolation"/>
+                    <img class="fragment current-visible" src="img/uvi2.gif" alt="Each window worked in isolation"/>
+                    <img class="fragment" src="img/uvi3.gif" alt="Each gate worked in isolation"/>
+                </div>
+            </section>
+            <section>
+                <h2 style="text-decoration: underline dotted #D08A1DFF">Integration testing</h2>
+                <ul>
+                    <li class="fragment">Every context start = integration</li>
+                    <li class="fragment">We can test Spring "magic"</li>
+                    <li class="fragment">Fallback, <code>@HystrixCommand</code></li>
+                    <li class="fragment"><code>@Transactional</code>
+                        <ul>
+                            <li class="fragment" style="font-size: .9em">Be careful if your tests are transactional
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="fragment"><code>@Cacheable</code></li>
+                    <li class="fragment"><code>@ConditionalOn...</code>
+                        <ul>
+                            <li class="fragment" style="font-size: .9em"><code>ApplicationContextRunner</code>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Filters, interceptors, <code>@PreAuthorize</code>, AOP</li>
+                </ul>
+            </section>
+            <section data-autoslide="1000" class="stretch">
+                <div class="fragment" style="position: absolute; top: 30%; right: 1%"><code>@WebMvcTest</code></div>
+                <div class="fragment" style="margin-left: 40%"><code>@SpringJUnitWebConfig</code></div>
+                <div class="fragment" style="position: absolute; top: 3%; left: 3%"><code>@DataLdapTest</code></div>
+                <div class="fragment" style="position: absolute; bottom: 40%; left: 30%">
+                    <code>@DataMongoTest</code>
+                </div>
+                <div class="fragment" style="position: absolute; bottom: 30%"><code>@SpringJUnitConfig</code></div>
+                <div class="fragment" data-id="main" style="position: absolute; bottom: 10%; right: 2%"><code>@SpringBootTest</code>
+                </div>
+                <div class="fragment" style="position: absolute; left: 50%; top: 42%"><code>@JsonTest</code></div>
+                <div class="fragment" style="margin-left: -4em; margin-top: 1em"><code>@DataJdbcTest</code></div>
+                <div class="fragment" style="position: absolute; top: 30%; left: 20%"><code>@DataJpaTest</code></div>
+                <div class="fragment" data-autoslide="0" style="position: absolute; left: 5%; bottom: 15%">
+                    <code>@DataRedisTest</code></div>
+            </section>
+            <section>
+                <h2>
+                    <code>@MockBean</code>
+                </h2>
+                <ol>
+                    <li class="fragment">When slicing Spring context</li>
+                    <li class="fragment">Simulating dependencies</li>
+                    <li class="fragment">API from Mockito, but mocks injected where needed</li>
+                    <li class="fragment">Risk of introducing too many contexts</li>
+                </ol>
+            </section>
+            <section>
+                <h2>Exercise 12</h2>
+                <ol>
+                    <li class="fragment">Take a look at <code>LimitingControllerTest</code></li>
+                    <li class="fragment">Add what's missing to make this test run</li>
+                    <li class="fragment">Add test cases to verify validation errors (missing fields in posted JSON)</li>
+                    <li class="fragment">Add test case to verify exceeding the limit (should return 422)</li>
+                </ol>
+            </section>
+            <section>
+                <h2>Exercise 13</h2>
+                <div>
+                    Take a look at <code>@DataJdbcTest</code> and write similar <em>lifecycle</em> test for <code>AccountSetting</code>
+                    as for <code>Account</code>
+                </div>
+            </section>
+            <section data-auto-animate>
+                <pre data-id="test-annotation" style="width: 100%;"><code class="java" data-trim
+                                                                          data-line-numbers="7|1-9|6">
+                    @Target(ElementType.TYPE)
+                    @Retention(RetentionPolicy.RUNTIME)
+                    @Documented
+                    @Inherited
+                    @BootstrapWith(SpringBootTestContextBootstrapper.class)
+                    @ExtendWith(SpringExtension.class)
+                    public @interface SpringBootTest {
+                      /* ... */
+                    }
+                </code></pre>
+            </section>
+            <section data-auto-animate>
+                <pre data-id="test-annotation" style="width: 100%;" class="r-stretch"><code class="java" data-trim
+                                                                                            style="font-size: .73em; line-height: 1.1"
+                                                                                            data-line-numbers="22|17-33|7-9,25">
+                    /**
+                     * Annotation for a JPA test that focuses &lt;strong>only&lt;/strong> on JPA components.
+                     * &lt;p>
+                     * Using this annotation will disable full auto-configuration and instead apply only
+                     * configuration relevant to JPA tests.
+                     * &lt;p>
+                     * By default, tests annotated with {@code @DataJpaTest} are transactional and roll back
+                     * at the end of each test. They also use an embedded in-memory database (replacing any
+                     * explicit or usually auto-configured DataSource).
+                     * ...
+                     * If you are looking to load your full application configuration, but use an embedded
+                     * database, you should consider {@link SpringBootTest @SpringBootTest} combined with
+                     * {@link AutoConfigureTestDatabase @AutoConfigureTestDatabase} rather than this
+                     * annotation.
+                     * ...
+                     */
+                    @Target(ElementType.TYPE)
+                    @Retention(RetentionPolicy.RUNTIME)
+                    @Documented
+                    @Inherited
+                    @BootstrapWith(DataJpaTestContextBootstrapper.class)
+                    @ExtendWith(SpringExtension.class)
+                    @OverrideAutoConfiguration(enabled = false)
+                    @TypeExcludeFilters(DataJpaTypeExcludeFilter.class)
+                    @Transactional
+                    @AutoConfigureCache
+                    @AutoConfigureDataJpa
+                    @AutoConfigureTestDatabase
+                    @AutoConfigureTestEntityManager
+                    @ImportAutoConfiguration
+                    public @interface DataJpaTest {
+                      /* ... */
+                    }
+                </code></pre>
+            </section>
+            <section data-auto-animate data-auto-animate-restart>
+                <pre data-id="int-test" class="r-stretch" style="width: 100%;"><code class="java" data-trim
+                                                                                     contenteditable="true"
+                                                                                     data-line-numbers="28-29">
+                    package io.github.mat3e.downloads.limiting.rest;
+
+                    import com.fasterxml.jackson.databind.JavaType;
+                    import com.fasterxml.jackson.databind.ObjectMapper;
+                    import com.fasterxml.jackson.databind.type.TypeFactory;
+                    import io.github.mat3e.downloads.limiting.LimitingFacade;
+                    import io.github.mat3e.downloads.limiting.api.AccountId;
+                    import io.github.mat3e.downloads.limiting.api.Asset;
+                    import io.github.mat3e.downloads.limiting.api.AssetDeserialization;
+                    import org.junit.jupiter.api.Test;
+                    import org.springframework.beans.factory.annotation.Autowired;
+                    import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+                    import org.springframework.boot.test.context.SpringBootTest;
+                    import org.springframework.test.web.servlet.MockMvc;
+                    import org.springframework.test.web.servlet.ResultActions;
+
+                    import java.util.Collection;
+
+                    import static java.util.stream.Collectors.toUnmodifiableList;
+                    import static org.assertj.core.api.BDDAssertions.then;
+                    import static org.springframework.http.MediaType.APPLICATION_JSON;
+                    import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+                    import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+                    import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+                    import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+                    @AutoConfigureMockMvc
+                    @SpringBootTest
+                    class LimitingIntTest {
+                      private static final String ACCOUNT_ID = "1";
+
+                      @Autowired
+                      private MockMvc mockMvc;
+
+                      @Test
+                      void downloadStarted_storesAssetsTillLimit() throws Exception {
+                        givenAccountLimit(2);
+                        // and
+                        httpSuccessfulPostAsset(
+                            "{",
+                            " \"id\": \"123\",",
+                            " \"countryCode\": \"US\"",
+                            "}");
+                        // and
+                        httpSuccessfulPostAsset(
+                            "{",
+                            " \"id\": \"456\",",
+                            " \"countryCode\": \"US\"",
+                            "}");
+
+                        // when
+                        httpPostAsset(
+                            "{",
+                            " \"id\": \"789\",",
+                            " \"countryCode\": \"US\"",
+                            "}"
+                        ).andExpect(status().isUnprocessableEntity());
+
+                        then(httpSuccessfulGetAssets()).containsExactly(
+                            Asset.withId("123").inCountry("US"),
+                            Asset.withId("456").inCountry("US"));
+
+                        // when
+                        httpSuccessfulDeleteAsset("123", "US");
+                        // and
+                        httpSuccessfulPostAsset(
+                            "{",
+                            " \"id\": \"789\",",
+                            " \"countryCode\": \"US\"",
+                            "}");
+
+                        then(httpSuccessfulGetAssets()).containsExactly(
+                            Asset.withId("456").inCountry("US"),
+                            Asset.withId("789").inCountry("US"));
+                      }
+
+                      @Test
+                      void illegalParams_returnsClientError() throws Exception {
+                        // given
+                        var validBody = "{ \"id\": \"123\", \"countryCode\": \"US\" }";
+
+                        // expect 404 - no account created, no assets
+                        httpGetAssets("lookMaNotExistingId").andExpect(status().isNotFound());
+                        httpPostAsset(validBody).andExpect(status().isNotFound());
+                        httpDeleteAsset("123", "US").andExpect(status().isNotFound());
+
+                        // expect 400
+                        httpPostAssetForAccount("  ", validBody).andExpect(status().isBadRequest());
+                        httpPostAsset("{ \"countryCode\": \"US\" }").andExpect(status().isBadRequest());
+                        httpPostAsset("{ \"id\": \"123\" }").andExpect(status().isBadRequest());
+                        httpDeleteAsset("  ", "OK").andExpect(status().isBadRequest());
+                        httpDeleteAsset("123", "  ").andExpect(status().isBadRequest());
+                      }
+
+                      private void httpSuccessfulDeleteAsset(String assetId, String countryCode) {
+                        try {
+                          httpDeleteAsset(assetId, countryCode).andExpect(status().isNoContent());
+                        } catch (Exception e) {
+                          throw new RuntimeException(e);
+                        }
+                      }
+
+                      private ResultActions httpDeleteAsset(String assetId, String countryCode) throws Exception {
+                        return mockMvc.perform(delete("/api/accounts/{id}/assets/{assetId}", ACCOUNT_ID, assetId)
+                            .queryParam("countryCode", countryCode));
+                      }
+
+                      private Collection&lt;Asset> httpSuccessfulGetAssets() {
+                        try {
+                          String jsonResponse = httpGetAssets(ACCOUNT_ID)
+                              .andExpect(status().isOk())
+                              .andReturn().getResponse().getContentAsString();
+                          JavaType returnType =
+                              TypeFactory.defaultInstance().constructCollectionType(Collection.class, AssetDeserialization.class);
+                          return new ObjectMapper().&lt;Collection&lt;AssetDeserialization>>readValue(jsonResponse, returnType).stream()
+                              .map(AssetDeserialization::toApi)
+                              .collect(toUnmodifiableList());
+                        } catch (Exception e) {
+                          throw new RuntimeException(e);
+                        }
+                      }
+
+                      private ResultActions httpGetAssets(String accountId) throws Exception {
+                        return mockMvc.perform(get("/api/accounts/{id}/assets", accountId).contentType(APPLICATION_JSON));
+                      }
+
+                      private void httpSuccessfulPostAsset(String... jsonLines) {
+                        try {
+                          httpPostAsset(jsonLines).andExpect(status().isCreated());
+                        } catch (Exception e) {
+                          throw new RuntimeException(e);
+                        }
+                      }
+
+                      private ResultActions httpPostAsset(String... jsonLines) throws Exception {
+                        return httpPostAssetForAccount(ACCOUNT_ID, jsonLines);
+                      }
+
+                      private ResultActions httpPostAssetForAccount(String accountId, String... jsonLines) throws Exception {
+                        return mockMvc.perform(post("/api/accounts/{id}/assets", accountId)
+                            .contentType(APPLICATION_JSON)
+                            .content(String.join("\n", jsonLines)));
+                      }
+
+                      void givenAccountLimit(int limit) {
+                        facade.overrideAccountLimit(AccountId.valueOf(ACCOUNT_ID), limit);
+                      }
+
+                      @Autowired
+                      private LimitingFacade facade;
+                    }
+                </code></pre>
+            </section>
+            <section data-auto-animate>
+                <pre data-id="int-test" class="r-stretch" style="width: 100%;"><code class="java" data-trim
+                                                                                     contenteditable="true"
+                                                                                     data-line-numbers="28,30-31">
+                    package io.github.mat3e.downloads.limiting.rest;
+
+                    import com.fasterxml.jackson.databind.JavaType;
+                    import com.fasterxml.jackson.databind.ObjectMapper;
+                    import com.fasterxml.jackson.databind.type.TypeFactory;
+                    import io.github.mat3e.downloads.limiting.LimitingFacade;
+                    import io.github.mat3e.downloads.limiting.api.AccountId;
+                    import io.github.mat3e.downloads.limiting.api.Asset;
+                    import io.github.mat3e.downloads.limiting.api.AssetDeserialization;
+                    import org.junit.jupiter.api.Test;
+                    import org.springframework.beans.factory.annotation.Autowired;
+                    import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+                    import org.springframework.boot.test.context.SpringBootTest;
+                    import org.springframework.test.web.servlet.MockMvc;
+                    import org.springframework.test.web.servlet.ResultActions;
+                    import org.springframework.transaction.annotation.Transactional;
+
+                    import java.util.Collection;
+
+                    import static java.util.stream.Collectors.toUnmodifiableList;
+                    import static org.assertj.core.api.BDDAssertions.then;
+                    import static org.springframework.http.MediaType.APPLICATION_JSON;
+                    import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+                    import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+                    import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+                    import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+                    @Transactional
+                    @AutoConfigureMockMvc
+                    @SpringBootTest
+                    class LimitingIntTest {
+                      private static final String ACCOUNT_ID = "1";
+
+                      @Autowired
+                      private MockMvc mockMvc;
+
+                      @Test
+                      void downloadStarted_storesAssetsTillLimit() throws Exception {
+                        givenAccountLimit(2);
+                        // and
+                        httpSuccessfulPostAsset(
+                            "{",
+                            " \"id\": \"123\",",
+                            " \"countryCode\": \"US\"",
+                            "}");
+                        // and
+                        httpSuccessfulPostAsset(
+                            "{",
+                            " \"id\": \"456\",",
+                            " \"countryCode\": \"US\"",
+                            "}");
+
+                        // when
+                        httpPostAsset(
+                            "{",
+                            " \"id\": \"789\",",
+                            " \"countryCode\": \"US\"",
+                            "}"
+                        ).andExpect(status().isUnprocessableEntity());
+
+                        then(httpSuccessfulGetAssets()).containsExactly(
+                            Asset.withId("123").inCountry("US"),
+                            Asset.withId("456").inCountry("US"));
+
+                        // when
+                        httpSuccessfulDeleteAsset("123", "US");
+                        // and
+                        httpSuccessfulPostAsset(
+                            "{",
+                            " \"id\": \"789\",",
+                            " \"countryCode\": \"US\"",
+                            "}");
+
+                        then(httpSuccessfulGetAssets()).containsExactly(
+                            Asset.withId("456").inCountry("US"),
+                            Asset.withId("789").inCountry("US"));
+                      }
+
+                      @Test
+                      void illegalParams_returnsClientError() throws Exception {
+                        // given
+                        var validBody = "{ \"id\": \"123\", \"countryCode\": \"US\" }";
+
+                        // expect 404 - no account created, no assets
+                        httpGetAssets("lookMaNotExistingId").andExpect(status().isNotFound());
+                        httpPostAsset(validBody).andExpect(status().isNotFound());
+                        httpDeleteAsset("123", "US").andExpect(status().isNotFound());
+
+                        // expect 400
+                        httpPostAssetForAccount("  ", validBody).andExpect(status().isBadRequest());
+                        httpPostAsset("{ \"countryCode\": \"US\" }").andExpect(status().isBadRequest());
+                        httpPostAsset("{ \"id\": \"123\" }").andExpect(status().isBadRequest());
+                        httpDeleteAsset("  ", "OK").andExpect(status().isBadRequest());
+                        httpDeleteAsset("123", "  ").andExpect(status().isBadRequest());
+                      }
+
+                      private void httpSuccessfulDeleteAsset(String assetId, String countryCode) {
+                        try {
+                          httpDeleteAsset(assetId, countryCode).andExpect(status().isNoContent());
+                        } catch (Exception e) {
+                          throw new RuntimeException(e);
+                        }
+                      }
+
+                      private ResultActions httpDeleteAsset(String assetId, String countryCode) throws Exception {
+                        return mockMvc.perform(delete("/api/accounts/{id}/assets/{assetId}", ACCOUNT_ID, assetId)
+                            .queryParam("countryCode", countryCode));
+                      }
+
+                      private Collection&lt;Asset> httpSuccessfulGetAssets() {
+                        try {
+                          String jsonResponse = httpGetAssets(ACCOUNT_ID)
+                              .andExpect(status().isOk())
+                              .andReturn().getResponse().getContentAsString();
+                          JavaType returnType =
+                              TypeFactory.defaultInstance().constructCollectionType(Collection.class, AssetDeserialization.class);
+                          return new ObjectMapper().&lt;Collection&lt;AssetDeserialization>>readValue(jsonResponse, returnType).stream()
+                              .map(AssetDeserialization::toApi)
+                              .collect(toUnmodifiableList());
+                        } catch (Exception e) {
+                          throw new RuntimeException(e);
+                        }
+                      }
+
+                      private ResultActions httpGetAssets(String accountId) throws Exception {
+                        return mockMvc.perform(get("/api/accounts/{id}/assets", accountId).contentType(APPLICATION_JSON));
+                      }
+
+                      private void httpSuccessfulPostAsset(String... jsonLines) {
+                        try {
+                          httpPostAsset(jsonLines).andExpect(status().isCreated());
+                        } catch (Exception e) {
+                          throw new RuntimeException(e);
+                        }
+                      }
+
+                      private ResultActions httpPostAsset(String... jsonLines) throws Exception {
+                        return httpPostAssetForAccount(ACCOUNT_ID, jsonLines);
+                      }
+
+                      private ResultActions httpPostAssetForAccount(String accountId, String... jsonLines) throws Exception {
+                        return mockMvc.perform(post("/api/accounts/{id}/assets", accountId)
+                            .contentType(APPLICATION_JSON)
+                            .content(String.join("\n", jsonLines)));
+                      }
+
+                      void givenAccountLimit(int limit) {
+                        facade.overrideAccountLimit(AccountId.valueOf(ACCOUNT_ID), limit);
+                      }
+
+                      @Autowired
+                      private LimitingFacade facade;
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <blockquote style="font-style: normal">⚠️ <code>@Transactional</code> + JPA ⚠️</blockquote>
+                <a class="fragment" href="https://nurkiewicz.com/2011/11/spring-pitfalls-transactional-tests.html">
+                    <em>Spring pitfalls: transactional tests considered harmful</em>
+                </a>
+                <div class="fragment">Fun fact: 2011</div>
+                <aside class="notes">
+                    Ale część problemów JPA-specific, podczas gdy JPA ogólnie problem, a <code>@Transactional</code>
+                    działa i z JDBC i innymi
+                </aside>
+            </section>
+            <section data-auto-animate>
+                <pre data-id="int-test" class="r-stretch" style="width: 100%;"><code class="java" data-trim
+                                                                                     contenteditable="true"
+                                                                                     data-line-numbers="28,30-31|29|34-35|53-59|137-145">
+                    package io.github.mat3e.downloads.limiting.rest;
+
+                    import com.fasterxml.jackson.databind.JavaType;
+                    import com.fasterxml.jackson.databind.ObjectMapper;
+                    import com.fasterxml.jackson.databind.type.TypeFactory;
+                    import io.github.mat3e.downloads.limiting.LimitingFacade;
+                    import io.github.mat3e.downloads.limiting.api.AccountId;
+                    import io.github.mat3e.downloads.limiting.api.Asset;
+                    import io.github.mat3e.downloads.limiting.api.AssetDeserialization;
+                    import org.junit.jupiter.api.Test;
+                    import org.springframework.beans.factory.annotation.Autowired;
+                    import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+                    import org.springframework.boot.test.context.SpringBootTest;
+                    import org.springframework.test.web.servlet.MockMvc;
+                    import org.springframework.test.web.servlet.ResultActions;
+                    import org.springframework.transaction.annotation.Transactional;
+
+                    import java.util.Collection;
+
+                    import static java.util.stream.Collectors.toUnmodifiableList;
+                    import static org.assertj.core.api.BDDAssertions.then;
+                    import static org.springframework.http.MediaType.APPLICATION_JSON;
+                    import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+                    import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+                    import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+                    import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+                    @Transactional
+                    @AutoConfigureMockMvc
+                    @SpringBootTest
+                    class LimitingIntTest {
+                      private static final String ACCOUNT_ID = "1";
+
+                      @Autowired
+                      private MockMvc mockMvc;
+
+                      @Test
+                      void downloadStarted_storesAssetsTillLimit() throws Exception {
+                        givenAccountLimit(2);
+                        // and
+                        httpSuccessfulPostAsset(
+                            "{",
+                            " \"id\": \"123\",",
+                            " \"countryCode\": \"US\"",
+                            "}");
+                        // and
+                        httpSuccessfulPostAsset(
+                            "{",
+                            " \"id\": \"456\",",
+                            " \"countryCode\": \"US\"",
+                            "}");
+
+                        // when
+                        httpPostAsset(
+                            "{",
+                            " \"id\": \"789\",",
+                            " \"countryCode\": \"US\"",
+                            "}"
+                        ).andExpect(status().isUnprocessableEntity());
+
+                        then(httpSuccessfulGetAssets()).containsExactly(
+                            Asset.withId("123").inCountry("US"),
+                            Asset.withId("456").inCountry("US"));
+
+                        // when
+                        httpSuccessfulDeleteAsset("123", "US");
+                        // and
+                        httpSuccessfulPostAsset(
+                            "{",
+                            " \"id\": \"789\",",
+                            " \"countryCode\": \"US\"",
+                            "}");
+
+                        then(httpSuccessfulGetAssets()).containsExactly(
+                            Asset.withId("456").inCountry("US"),
+                            Asset.withId("789").inCountry("US"));
+                      }
+
+                      @Test
+                      void illegalParams_returnsClientError() throws Exception {
+                        // given
+                        var validBody = "{ \"id\": \"123\", \"countryCode\": \"US\" }";
+
+                        // expect 404 - no account created, no assets
+                        httpGetAssets("lookMaNotExistingId").andExpect(status().isNotFound());
+                        httpPostAsset(validBody).andExpect(status().isNotFound());
+                        httpDeleteAsset("123", "US").andExpect(status().isNotFound());
+
+                        // expect 400
+                        httpPostAssetForAccount("  ", validBody).andExpect(status().isBadRequest());
+                        httpPostAsset("{ \"countryCode\": \"US\" }").andExpect(status().isBadRequest());
+                        httpPostAsset("{ \"id\": \"123\" }").andExpect(status().isBadRequest());
+                        httpDeleteAsset("  ", "OK").andExpect(status().isBadRequest());
+                        httpDeleteAsset("123", "  ").andExpect(status().isBadRequest());
+                      }
+
+                      private void httpSuccessfulDeleteAsset(String assetId, String countryCode) {
+                        try {
+                          httpDeleteAsset(assetId, countryCode).andExpect(status().isNoContent());
+                        } catch (Exception e) {
+                          throw new RuntimeException(e);
+                        }
+                      }
+
+                      private ResultActions httpDeleteAsset(String assetId, String countryCode) throws Exception {
+                        return mockMvc.perform(delete("/api/accounts/{id}/assets/{assetId}", ACCOUNT_ID, assetId)
+                            .queryParam("countryCode", countryCode));
+                      }
+
+                      private Collection&lt;Asset> httpSuccessfulGetAssets() {
+                        try {
+                          String jsonResponse = httpGetAssets(ACCOUNT_ID)
+                              .andExpect(status().isOk())
+                              .andReturn().getResponse().getContentAsString();
+                          JavaType returnType =
+                              TypeFactory.defaultInstance().constructCollectionType(Collection.class, AssetDeserialization.class);
+                          return new ObjectMapper().&lt;Collection&lt;AssetDeserialization>>readValue(jsonResponse, returnType).stream()
+                              .map(AssetDeserialization::toApi)
+                              .collect(toUnmodifiableList());
+                        } catch (Exception e) {
+                          throw new RuntimeException(e);
+                        }
+                      }
+
+                      private ResultActions httpGetAssets(String accountId) throws Exception {
+                        return mockMvc.perform(get("/api/accounts/{id}/assets", accountId).contentType(APPLICATION_JSON));
+                      }
+
+                      private void httpSuccessfulPostAsset(String... jsonLines) {
+                        try {
+                          httpPostAsset(jsonLines).andExpect(status().isCreated());
+                        } catch (Exception e) {
+                          throw new RuntimeException(e);
+                        }
+                      }
+
+                      private ResultActions httpPostAsset(String... jsonLines) throws Exception {
+                        return httpPostAssetForAccount(ACCOUNT_ID, jsonLines);
+                      }
+
+                      private ResultActions httpPostAssetForAccount(String accountId, String... jsonLines) throws Exception {
+                        return mockMvc.perform(post("/api/accounts/{id}/assets", accountId)
+                            .contentType(APPLICATION_JSON)
+                            .content(String.join("\n", jsonLines)));
+                      }
+
+                      void givenAccountLimit(int limit) {
+                        facade.overrideAccountLimit(AccountId.valueOf(ACCOUNT_ID), limit);
+                      }
+
+                      @Autowired
+                      private LimitingFacade facade;
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <pre style="width: 100%;"><code class="java" data-trim
+                                                data-line-numbers="15-18,23-24">
+                    package io.github.mat3e.downloads.limiting;
+
+                    import org.junit.jupiter.api.Tag;
+                    import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+                    import org.springframework.boot.test.context.SpringBootTest;
+                    import org.springframework.transaction.annotation.Transactional;
+
+                    import java.lang.annotation.Documented;
+                    import java.lang.annotation.ElementType;
+                    import java.lang.annotation.Inherited;
+                    import java.lang.annotation.Retention;
+                    import java.lang.annotation.RetentionPolicy;
+                    import java.lang.annotation.Target;
+
+                    @Tag("integration")
+                    @Transactional
+                    @AutoConfigureMockMvc
+                    @SpringBootTest
+                    @Target(ElementType.TYPE)
+                    @Retention(RetentionPolicy.RUNTIME)
+                    @Documented
+                    @Inherited
+                    public @interface IntegrationTest {
+                    }
+                </code></pre>
+                <pre style="width: 100%;" class="fragment"><code class="java" data-trim>
+                    @IntegrationTest
+                    class LimitingControllerIntTest {
+                        /* ... */
+                    }
+                </code></pre>
+            </section>
+            <section class="stretch" data-auto-animate>
+                <div style="position: absolute; top: 30%; right: 1%"><code>@WebMvcTest</code></div>
+                <div style="margin-left: 40%"><code>@SpringJUnitWebConfig</code></div>
+                <div style="position: absolute; top: 3%; left: 3%"><code>@DataLdapTest</code></div>
+                <div style="position: absolute; bottom: 40%; left: 30%">
+                    <code>@DataMongoTest</code>
+                </div>
+                <div style="position: absolute; bottom: 30%"><code>@SpringJUnitConfig</code></div>
+                <div data-id="main" style="position: absolute; bottom: 10%; right: 2%"><code>@SpringBootTest</code>
+                </div>
+                <div style="position: absolute; left: 50%; top: 42%"><code>@JsonTest</code></div>
+                <div style="margin-left: -4em; margin-top: 1em"><code>@DataJdbcTest</code></div>
+                <div style="position: absolute; top: 30%; left: 20%"><code>@DataJpaTest</code></div>
+                <div style="position: absolute; left: 5%; bottom: 15%"><code>@DataRedisTest</code>
+                </div>
+            </section>
+            <section data-auto-animate>
+                <div style="font-size: 1.5em" data-id="main"><code>@SpringBootTest</code></div>
+                <ul>
+                    <li class="fragment">Rule of thumb: use just this one ;)</li>
+                    <li class="fragment">Caching and reusing Spring contexts between tests</li>
+                    <li class="fragment">Base class, annotation, interface...</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Exercise 14</h2>
+                <ol>
+                    <li class="fragment">Introduce custom annotation for integration tests</li>
+                    <li class="fragment">Rewrite current integration tests to share the context (using that
+                        annotation)
+                    </li>
+                </ol>
+            </section>
+            <section>
+                <h2>Spring testing tips</h2>
+                <ul>
+                    <li>Constructor injection</li>
+                    <li><code>@Configuration</code> + <code>@Bean</code> as default</li>
+                    <li>Pragmatism - not everything managed by Spring</li>
+                    <li>Modularity - independent parts with their configurations</li>
+                    <li class="fragment">Test configurations with <code>ApplicationContextRunner</code></li>
+                    <li class="fragment">Prefer <code>@SpringBootTest</code></li>
+                    <li style="visibility: hidden">&nbsp;</li>
+                </ul>
+            </section>
+        </section>
+
+        <section data-background-image>
+            <section>
+                <h2>Schedule</h2>
+                <ol>
+                    <li>Gradle</li>
+                    <li><code>spring-boot-starter-test</code></li>
+                    <li>Spring 101</li>
+                    <li>Testing Spring</li>
+                    <li class="fragment highlight-red">App customizations for tests</li>
+                    <li>Component tests & testcontainers</li>
+                </ol>
+            </section>
+            <section data-background-image="img/ppap.gif" data-background-size="cover">
+                <br/>
+                <br/>
+                <span style="background-color: rgba(0, 0, 0, .3)">
+                    Spring + Tests
+                </span>
+            </section>
+            <section>
+                <h2>Overriding beans</h2>
+                <ul>
+                    <li class="fragment" data-fragment-index="1"><code>@MockBean</code> problematic</li>
+                    <li class="fragment" data-fragment-index="2"><code>@Primary</code><span class="fragment"
+                                                                                            data-fragment-index="3">; but be careful when</span>
+                        <ul>
+                            <li class="fragment" data-fragment-index="3"><code>@Qualifier</code></li>
+                            <li class="fragment">Beans collection</li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Profiles</li>
+                    <li class="fragment"><a
+                            href="https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config">Properties</a>
+                    </li>
+                    <li class="fragment"><code>@ConditionalOn...</code></li>
+                    <li class="fragment"><code>@TestConfiguration</code></li>
+                </ul>
+                <aside class="notes">
+                    @TestConfiguration non discoverable
+                    <br/>
+                    Primary = already in prod
+                    <br/>
+                    Conditional - there as well
+                    <br/>
+                    props in src/test taking precedence
+                </aside>
+            </section>
+            <section>
+                <h2>Exercise 15</h2>
+                <div>
+                    Check various ways of overriding beans from tests
+                </div>
+            </section>
+            <section data-background-size="contain"
+                     data-background-image="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaHlqY3Z1ZnQyNGJteTQxMm93bXo4Z3E5bjJ3NTkwNXRkcjJlOTJ5cyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5qyEqSBsxQK4JbT8Gg/giphy.gif"></section>
+            <section>
+                <h2>Spring testing tips</h2>
+                <ul>
+                    <li>Constructor injection</li>
+                    <li><code>@Configuration</code> + <code>@Bean</code> as default</li>
+                    <li>Pragmatism - not everything managed by Spring</li>
+                    <li>Modularity - independent parts with their configurations</li>
+                    <li>Test configurations with <code>ApplicationContextRunner</code></li>
+                    <li>Prefer <code>@SpringBootTest</code></li>
+                    <li class="fragment">Properties over profiles</li>
+                </ul>
+            </section>
+        </section>
+
+        <section data-background-image>
+            <section>
+                <h2>Schedule</h2>
+                <ol>
+                    <li>Gradle</li>
+                    <li><code>spring-boot-starter-test</code></li>
+                    <li>Spring 101</li>
+                    <li>Testing Spring</li>
+                    <li>App customizations for tests</li>
+                    <li class="fragment highlight-red">Component tests & testcontainers</li>
+                </ol>
+            </section>
+            <section>
+                <h2>Testability - BDD</h2>
+                <ul>
+                    <li class="fragment">
+                        Treating packages as "units" from unit tests
+                        <ul>
+                            <li class="fragment">~ Component Test</li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Asserting the behaviors
+                        <ul>
+                            <li class="fragment">
+                                Spring configuration used for setup
+                            </li>
+                            <li class="fragment">Touching just public classes (in and out)</li>
+                            <li class="fragment">Mocking just other packages</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2 style="text-decoration: underline dotted #74A7CBFF">Unit</h2>
+                <ul>
+                    <li class="fragment" data-fragment-index="1">Good if much logic in a single class
+                        <ul>
+                            <li class="fragment" data-fragment-index="2">E.g. validations in value objecs</li>
+                        </ul>
+                    </li>
+                    <li class="fragment" data-fragment-index="3"><code>Supplier</code> instead of mock?
+                    </li>
+                    <li class="fragment" data-fragment-index="4">Fast</li>
+                    <li class="fragment">Close to implementation details = potential removal during refactoring</li>
+                </ul>
+                <img class="fragment" data-fragment-index="4" style="width: 30%" src="img/speed.jpg"
+                     alt="Cars: I Am Speed">
+            </section>
+            <section>
+                <h2 style="text-decoration: underline dotted #78B9E6FF">Component</h2>
+                <ul>
+                    <li class="fragment">Whole "component", e.g. whole package as unit
+                        <ul>
+                            <li class="fragment">
+                                Internal I/O (e.g. repositories) replaced with
+                                <em>in-memory</em> versions
+                            </li>
+                            <li class="fragment">
+                                Mock - external packages, systems, etc.
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Component as <em>black box</em></li>
+                    <li class="fragment">Easy to replace/extract to microservice</li>
+                    <li class="fragment">BDD as you mean it!</li>
+                </ul>
+            </section>
+            <section data-background-image data-auto-animate>
+                <small data-id="src"><code>main/.../limiting</code></small>
+                <pre class="r-stretch" style="width: 100%; margin: 0"><code class="java" data-trim
+                                                                            data-line-numbers="10-23">
+                    package io.github.mat3e.downloads.limiting;
+
+                    import io.github.mat3e.downloads.reporting.ReportingFacade;
+                    import lombok.RequiredArgsConstructor;
+                    import org.springframework.context.annotation.Bean;
+                    import org.springframework.context.annotation.Configuration;
+
+                    import java.time.Clock;
+
+                    @Configuration
+                    @RequiredArgsConstructor
+                    class LimitingConfiguration {
+                      /* just IO dependencies and other modules */
+                      private final Clock clock;
+                      private final AccountRepository accountRepository;
+                      private final AccountSettingRepository accountSettingRepository;
+                      private final ReportingFacade reportingFacade;
+
+                      @Bean
+                      LimitingFacade facade() {
+                        return new LimitingFacade(clock, accountRepository, accountSettingRepository, reportingFacade);
+                      }
+                    }
+                </code></pre>
+            </section>
+            <section data-background-image data-auto-animate>
+                <small data-id="src"><code>testFixtures/.../limiting</code></small>
+                <pre class="r-stretch" style="width: 100%; margin: 0"><code class="java" data-trim
+                                                                            data-line-numbers="9-27|12-14|16,22|17-19|20-21|24-26">
+                    package io.github.mat3e.downloads.limiting;
+
+                    import io.github.mat3e.downloads.reporting.ReportingFacade;
+
+                    import java.time.Clock;
+                    import java.time.Instant;
+                    import java.time.ZoneOffset;
+
+                    class LimitingTestSetup {
+                      private final LimitingConfiguration creator; // Spring
+
+                      LimitingTestSetup(ReportingFacade reportingFacade) {
+                        this(Clock.fixed(Instant.EPOCH, ZoneOffset.UTC), reportingFacade);
+                      }
+
+                      LimitingTestSetup(Clock clock, ReportingFacade reportingFacade) {
+                        var accountRepository = new InMemoryAccountRepository();
+                        var settingsRepository
+                            = new InMemoryAccountSettingRepository(clock, accountRepository);
+                        creator = new LimitingConfiguration(
+                            clock, accountRepository, settingsRepository, reportingFacade);
+                      }
+
+                      LimitingFacade facade() {
+                        return creator.facade();
+                      }
+                    }
+                </code></pre>
+            </section>
+            <section data-background-image data-auto-animate>
+                <small data-id="src"><code>test/.../limiting</code></small>
+                <pre class="r-stretch" style="width: 100%; margin: 0"><code class="java" data-trim
+                                                                            data-line-numbers="20-25|66-86">
+                    package io.github.mat3e.downloads.limiting;
+
+                    import io.github.mat3e.downloads.exceptionhandling.BusinessException;
+                    import io.github.mat3e.downloads.limiting.LimitingFacade.AccountLimitExceeded;
+                    import io.github.mat3e.downloads.limiting.api.AccountId;
+                    import io.github.mat3e.downloads.limiting.api.Asset;
+                    import io.github.mat3e.downloads.reporting.CapturingReportingFacade;
+                    import org.junit.jupiter.api.Test;
+
+                    import static io.github.mat3e.downloads.limiting.BusinessAssertions.then;
+                    import static io.github.mat3e.downloads.limiting.BusinessAssertions.thenFoundIn;
+                    import static org.assertj.core.api.Assertions.assertThat;
+                    import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+                    import static org.assertj.core.api.Assertions.catchException;
+                    import static org.assertj.core.api.Assertions.tuple;
+
+                    class LimitingTest {
+                      private static final AccountId ACCOUNT_ID = AccountId.valueOf("1");
+
+                      private final CapturingReportingFacade reporting
+                          = new CapturingReportingFacade();
+                      private final LimitingTestSetup setup
+                          = new LimitingTestSetup(reporting);
+                      private final LimitingFacade limiting
+                          = setup.facade();
+
+                      @Test
+                      void findAccount_unknownAccount_returnsEmpty() {
+                        assertThat(limiting.findForAccount(ACCOUNT_ID)).isEmpty();
+                      }
+
+                      @Test
+                      void downloadStarted_notExistingAccount_throwsNotFound() {
+                        assertThatExceptionOfType(BusinessException.class)
+                            .isThrownBy(() -> limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("US")))
+                            .withMessageContaining("not found")
+                            .withMessageContaining(ACCOUNT_ID.getId());
+                      }
+
+                      @Test
+                      void assetRemoved_notExistingAccount_throwsNotFound() {
+                        assertThatExceptionOfType(BusinessException.class)
+                            .isThrownBy(() -> limiting.removeDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("US")))
+                            .withMessageContaining("not found")
+                            .withMessageContaining(ACCOUNT_ID.getId());
+                      }
+
+                      @Test
+                      void overrideLimit_illegalValue_throws() {
+                        assertThatExceptionOfType(BusinessException.class)
+                            .isThrownBy(() -> limiting.overrideAccountLimit(ACCOUNT_ID, -1))
+                            .withMessageContaining("negative");
+                      }
+
+                      @Test
+                      void downloadStarted_limitNotExceeded_storesAsset() {
+                        // given
+                        limiting.overrideAccountLimit(ACCOUNT_ID, 1);
+
+                        // when
+                        limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("US"));
+
+                        thenFoundIn(limiting, ACCOUNT_ID).containsExactly(Asset.withId("123").inCountry("US"));
+                      }
+
+                      @Test
+                      void downloadStarted_limitExceeded_doesNotStoreAsset() {
+                        // given
+                        limiting.overrideAccountLimit(ACCOUNT_ID, 1);
+                        // and
+                        limiting.assignDownloadedAsset(
+                            ACCOUNT_ID,
+                            Asset.withId("123").inCountry("US")
+                        );
+
+                        // when
+                        var exception =
+                            catchException(() -> limiting.assignDownloadedAsset(
+                                ACCOUNT_ID,
+                                Asset.withId("456").inCountry("US"))
+                            );
+
+                        then(exception).isInstanceOf(AccountLimitExceeded.class);
+                        thenFoundIn(limiting, ACCOUNT_ID)
+                            .containsExactly(Asset.withId("123").inCountry("US"));
+                      }
+
+                      @Test
+                      void downloadStarted_sameAsset_doesNotStoreAsset() {
+                        // given
+                        limiting.overrideAccountLimit(ACCOUNT_ID, 2);
+                        // and
+                        limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("US"));
+
+                        // when
+                        limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("US"));
+
+                        thenFoundIn(limiting, ACCOUNT_ID).containsExactly(Asset.withId("123").inCountry("US"));
+                        reporting.recordedEvents()
+                            .extracting("accountId", "asset")
+                            .containsExactly(tuple(ACCOUNT_ID, Asset.withId("123").inCountry("US")));
+                      }
+
+                      @Test
+                      void downloadStarted_sameAssetDifferentCountry_storesAsset() {
+                        // given
+                        limiting.overrideAccountLimit(ACCOUNT_ID, 2);
+                        // and
+                        limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("DE"));
+
+                        // when
+                        limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("FR"));
+
+                        thenFoundIn(limiting, ACCOUNT_ID).containsExactly(
+                            Asset.withId("123").inCountry("DE"),
+                            Asset.withId("123").inCountry("FR"));
+                        reporting.recordedEvents()
+                            .extracting("accountId", "asset", "existingAssetCountry")
+                            .containsExactly((tuple(ACCOUNT_ID, Asset.withId("123").inCountry("FR"), "DE")));
+                      }
+
+                      @Test
+                      void assetRemoved_noAsset_ignores() {
+                        // given
+                        limiting.overrideAccountLimit(ACCOUNT_ID, 2);
+
+                        // when
+                        limiting.removeDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("US"));
+
+                        thenFoundIn(limiting, ACCOUNT_ID).isEmpty();
+                        reporting.recordedEvents()
+                            .extracting("accountId", "asset")
+                            .containsExactly(tuple(ACCOUNT_ID, Asset.withId("123").inCountry("US")));
+                      }
+
+                      @Test
+                      void assetRemoved_newDownloadStarted_storesAsset() {
+                        // given
+                        limiting.overrideAccountLimit(ACCOUNT_ID, 2);
+                        // and
+                        limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("DE"));
+                        // and
+                        limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("FR"));
+
+                        // when
+                        limiting.removeDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("FR"));
+                        // and
+                        limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("456").inCountry("DE"));
+
+                        thenFoundIn(limiting, ACCOUNT_ID).containsExactly(
+                            Asset.withId("123").inCountry("DE"),
+                            Asset.withId("456").inCountry("DE"));
+                      }
+
+                      @Test
+                      void downloadStarted_limitIncreased_storesAsset() {
+                        // given
+                        limiting.overrideAccountLimit(ACCOUNT_ID, 1);
+                        // and
+                        limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("123").inCountry("DE"));
+
+                        // when
+                        var exception =
+                            catchException(() -> limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("456").inCountry("DE")));
+
+                        then(exception).isInstanceOf(AccountLimitExceeded.class);
+                        thenFoundIn(limiting, ACCOUNT_ID).containsExactly(Asset.withId("123").inCountry("DE"));
+
+                        // when
+                        limiting.overrideAccountLimit(ACCOUNT_ID, 2);
+                        // and
+                        limiting.assignDownloadedAsset(ACCOUNT_ID, Asset.withId("456").inCountry("DE"));
+
+                        thenFoundIn(limiting, ACCOUNT_ID).containsExactly(
+                            Asset.withId("123").inCountry("DE"),
+                            Asset.withId("456").inCountry("DE"));
+                      }
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h2>Exercise 16</h2>
+                <div>Check how it can work</div>
+            </section>
+            <section>
+                <h2>Testcontainers</h2>
+                <ul>
+                    <li class="fragment">Docker containers FTW</li>
+                    <li class="fragment">
+                        <a href="https://java.testcontainers.org/modules/databases/jdbc/">
+                            JDBC? No brainer
+                        </a>
+                    </li>
+                    <li class="fragment">
+                        <a href="https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1">
+                            Newer Spring
+                        </a>
+                    </li>
+                    <li class="fragment">
+                        <a href="https://maciejwalkowiak.com/blog/testcontainers-spring-boot-setup/">
+                            All Spring versions
+                        </a>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>Exercise 17</h2>
+                <ol class="ex3">
+                    <li class="fragment">Install Rancher Desktop as in <a
+                            href="https://www.danielstechblog.io/using-rancher-desktop-as-docker-desktop-replacement-on-macos/">this
+                        article</a></li>
+                    <li class="fragment">For Testcontainers support, you further need to enable administrative access
+                        and set the environment variable as
+                        described <a href="https://docs.rancherdesktop.io/how-to-guides/using-testcontainers/">here</a>
+                    </li>
+                    <li class="fragment">Set it just in <code>~/.zshrc</code> file or in <code>~/.bash_profile</code> and make your <code>.zshrc</code> setting from it:
+                        <pre><code class="bash" data-trim>
+                            if [ -f ~/.bash_profile ]; then
+                                . ~/.bash_profile;
+                            fi
+                        </code></pre>
+                    </li>
+                    <li class="fragment">Use <a href="https://java.testcontainers.org/modules/databases/jdbc/">MariaDB
+                        Testcontainer through JDBC URL</a></li>
+                </ol>
+            </section>
+        </section>
+
+        <section>
+            <h2 class="fragment" data-fragment-index="3">Thanks!</h2>
+            <div>
+                <img src="img/Shrek.png">
+            </div>
+            <ul>
+                <li class="fragment" data-fragment-index="1">
+                    <a href="https://mat3e.github.io/spring-qa-workshop/Paramount">mat3e.github.io/spring-qa-workshop/Paramount</a>
+                </li>
+                <li class="fragment" data-fragment-index="2">
+                    <a href="https://github.com/mat3e/downloads-service/">github.com/mat3e/downloads-service</a>
+                </li>
+            </ul>
+        </section>
+
+    </div>
+
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/search/search.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight]
+    });
+
+    document.querySelectorAll('.reveal .slides section:not([data-background-image])').forEach(s => {
+        s.setAttribute('data-background-image', 'img/twitter.png');
+        s.setAttribute('data-background-size', '240px');
+        s.setAttribute('data-background-position', '.5em .5em');
+    });
+
+</script>
+
+</body>
+</html>
