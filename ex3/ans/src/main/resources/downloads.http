@@ -1,0 +1,34 @@
+@host = http://localhost:8080
+@accountId = sample-account
+@assetId = asset
+@assetCountry = PL
+
+### Request 1: Add Asset
+
+POST {{host}}/api/accounts/{{accountId}}/assets
+Content-Type: application/json
+
+{
+  "id": "{{assetId}}",
+  "countryCode": "{{assetCountry}}"
+}
+
+
+### Request 2: Add Asset Validation Fail
+
+POST {{host}}/api/accounts/{{accountId}}/assets
+Content-Type: application/json
+
+{
+  "countryCode": null
+}
+
+
+### Request 3: Read Assets
+
+GET {{host}}/api/accounts/{{accountId}}/assets
+
+
+### Request 4: Remove Asset
+
+DELETE {{host}}/api/accounts/{{accountId}}/assets/{{assetId}}?countryCode={{assetCountry}}

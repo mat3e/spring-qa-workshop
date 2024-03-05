@@ -1,0 +1,61 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.9'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id 'java-test-fixtures'
+}
+
+group = 'io.github.mat3e'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '21'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-mysql'
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+	testFixturesImplementation 'org.springframework.data:spring-data-commons'
+	testFixturesImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+testing {
+	suites {
+		configureEach {
+			useJUnitJupiter()
+			dependencies {
+				implementation 'org.springframework.boot:spring-boot-starter-test'
+			}
+		}
+
+		integrationTest(JvmTestSuite) {
+			dependencies {
+				implementation project()
+				implementation 'org.springframework.boot:spring-boot-starter-web'
+			}
+
+			targets {
+				all {
+					testTask.configure {
+						shouldRunAfter test
+					}
+				}
+			}
+		}
+	}
+}
+
+tasks.named('check') {
+	dependsOn testing.suites.integrationTest
+}
